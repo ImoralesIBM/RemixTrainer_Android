@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PreLoginActivity">
+
+    <include layout="@layout/content_header_logo" />
+
+    <LinearLayout
+        android:id="@+id/pre_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        tools:context=".PreLoginActivity">
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButtonBackground"
+            android:gravity="center"
+            android:onClick="onRegister"
+            android:text="@string/label_new_user" />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButtonBackground"
+            android:gravity="center"
+            android:onClick="onLogin"
+            android:text="@string/label_existing_user" />
+    </LinearLayout>
+</LinearLayout>

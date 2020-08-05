@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout
+    tools:context=".SelectEquipmentDialogFragment"
+    android:layout_centerInParent="true"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/close_btn"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_gravity="top|start"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/label_close_btn"/>
+    <FrameLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/close_btn"
+        android:layout_toEndOf="@id/close_btn"
+        android:id="@+id/equipment_type_list_placeholder"/>
+</RelativeLayout>

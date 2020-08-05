@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AdminExercisesActivity">
+
+    <include layout="@layout/content_toolbar"
+        android:id="@+id/main_toolbar" />
+
+    <include layout="@layout/content_header_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_toolbar"
+        android:id="@+id/header_logo" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/main_list"
+        android:layout_below="@id/header_logo"
+        android:layout_above="@id/footer_controls">
+
+        <FrameLayout android:id="@+id/selected_exercise_list_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/footer_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/add_button"
+            style="?android:textAppearanceSmall"
+            android:background="@color/colorButtonBackground"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:drawableStart="@android:drawable/ic_menu_add"
+            android:text="@string/action_add_exercise"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/return_button"
+            style="?android:textAppearanceSmall"
+            android:background="@color/colorButtonBackground"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_return_to_dashboard"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

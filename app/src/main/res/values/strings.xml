@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<resources>
+    <string name="app_name">Remix Trainer</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_next">Next</string>
+    <string name="action_sign_in_short">Sign in</string>
+
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_cannot_register">User with this account already exists</string>
+
+    <string name="muscle_group_name_required">Muscle group name is required.</string>
+    <string name="equipment_name_required">Fitness equipment name is required.</string>
+    <string name="equipment_code_required">Fitness equipment code is required.</string>
+    <string name="exercise_name_required">Exercise name is required.</string>
+    <string name="muscle_groups_required">Please select at least one muscle group.</string>
+    <string name="fitness_equipment_required">Please select at least one type of fitness equipment.</string>
+
+
+    <string name="muscle_group_name_duplicate">Muscle group name already in use.</string>
+    <string name="equipment_name_duplicate">Fitness equipment name already in use.</string>
+    <string name="equipment_code_duplicate">Fitness equipment code already in use.</string>
+    <string name="exercise_name_duplicate">Exercise name already in use.</string>
+
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."
+    </string>
+
+    <string name="label_new_user">New User</string>
+    <string name="label_existing_user">Existing User</string>
+
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_you_tube_video">YouTube Video Link (optional):</string>
+
+    <string name="label_exercise_name">Exercise Name</string>
+    <string name="label_muscle_group_name">Muscle Group Name</string>
+    <string name="label_equipment_type_name">Equipment Type Name</string>
+    <string name="label_equipment_type_code">Equipment Type Code</string>
+
+    <string name="label_edit_muscle_group_button">Edit</string>
+    <string name="label_delete_muscle_group_button">Delete</string>
+
+    <string name="label_edit_equipment_type_button">Edit</string>
+    <string name="label_delete_equipment_type_button">Delete</string>
+
+    <string name="label_num_sets">Number of Sets</string>
+    <string name="label_sets_switch">Sets in:</string>
+    <string name="label_reps">Reps</string>
+    <string name="label_time">Time</string>
+    <string name="label_num_reps"># of REPS</string>
+    <string name="label_num_reptime">Set Time</string>
+
+    <string name="label_rest_time">Rest Time</string>
+
+    <string name="status_recovery_email_sent">We have sent you instructions to reset your password!</string>
+
+    <string name="prompt_first_name">First Name</string>
+    <string name="prompt_last_name">Last Name</string>
+
+    <string name="prompt_num_sets"># of Sets</string>
+    <string name="prompt_num_reps"># of Reps or Seconds</string>
+    <string name="prompt_rest_time">Timing (in Seconds)</string>
+
+    <string name="action_register">Register</string>
+    <string name="action_admin">Administration</string>
+    <string name="action_logout">Logout</string>
+
+    <string name="action_forgot_password">Forgot Password</string>
+    <string name="action_next_quickstart">NEXT (Hold For Quick Start)</string>
+
+    <string name="key_keep_exercise">Keep</string>
+    <string name="key_discard_exercise">Discard</string>
+
+    <string name="key_keep_all_ex">Keep All</string>
+    <string name="key_discard_all_ex">Discard All</string>
+    <string name="key_invert_ex">Invert Selection</string>
+
+    <string name="action_remix_workout">Remix</string>
+    <string name="action_accept_workout">Accept</string>
+    <string name="action_start_workout">Start</string>
+
+    <string name="action_restart_workout">Restart</string>
+    <string name="action_store_workout">Store</string>
+    <string name="action_regenerate_workout">Back</string>
+
+    <string name="action_add_exercise">Add Exercise</string>
+    <string name="action_add_muscle_group">Add Muscle Group</string>
+    <string name="action_add_equipment_type">Add Equipment Type</string>
+
+    <string name="action_save_exercise">Save</string>
+    <string name="action_cancel_edit_exercise">Cancel</string>
+
+    <string name="action_save_muscle_group">Save</string>
+    <string name="action_cancel_edit_muscle_group">Cancel</string>
+
+    <string name="action_save_equipment_type">Save</string>
+    <string name="action_cancel_edit_equipment_type">Cancel</string>
+
+    <string name="action_save_quick_workout">Save</string>
+    <string name="action_cancel_edit_quick_workout">Cancel</string>
+
+    <string name="action_revert_user_data">Revert to Defaults</string>
+
+    <string name="label_choose_muscle_group">Choose Muscle Group</string>
+    <string name="label_choose_equipment_type">Choose Equipment Type</string>
+
+    <string name="action_admin_edit_muscle_groups">Muscle Groups</string>
+    <string name="action_admin_edit_equipment_types">Equipment Types</string>
+    <string name="action_admin_edit_exercises">Exercises</string>
+    <string name="action_admin_edit_quick_workout">Quick Workout Settings</string>
+    <string name="action_admin_return">Return</string>
+
+    <string name="action_return_to_dashboard">Return to Dashboard</string>
+
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_pre_login">Pre-Login</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_initial_params">Set Initial Paramaters</string>
+    <string name="title_activity_select_group_exercise">Muscle Groups and Equipment Types</string>
+    <string name="title_activity_preliminary_workout">Preliminary Workout</string>
+    <string name="title_activity_final_workout">Final Workout</string>
+    <string name="title_activity_admin_main">Administration Dashboard</string>
+    <string name="title_activity_admin_muscle_groups">Administration: Muscle Groups</string>
+    <string name="title_activity_admin_equipment_types">Administration: Equipment Types</string>
+    <string name="title_activity_admin_exercises">Administration: Exercises</string>
+    <string name="title_activity_admin_quick_workout">Administration: Quick Workout</string>
+
+    <string name="label_close_btn">Close</string>
+
+    <string name="label_muscle_groups">Muscle Groups</string>
+    <string name="label_equipment_types">Equipment Types</string>
+
+
+    <string name="YouTubeAPI_Key">AIzaSyAgDJ6KeUjowDpaHAintjrK3RWNOHP1NTY</string>
+</resources>

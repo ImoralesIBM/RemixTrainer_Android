@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/admin_item"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:title="@string/action_admin"
+        android:visible="true"
+        tools:checkable="false" />
+    <item
+        android:id="@+id/logout_item"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:title="@string/action_logout"
+        android:visible="true"
+        tools:checkable="false" />
+</menu>

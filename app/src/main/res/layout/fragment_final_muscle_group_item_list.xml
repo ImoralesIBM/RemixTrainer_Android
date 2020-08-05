@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<androidx.recyclerview.widget.RecyclerView
+    tools:listitem="@layout/fragment_final_muscle_group_item"
+    tools:context=".FinalMuscleGroupItemFragment"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:name="com.remixtrainer.FinalMuscleGroupItemFragment"
+    android:id="@+id/list"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

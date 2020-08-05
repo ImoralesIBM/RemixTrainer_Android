@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "684623129588",
+    "firebase_url": "https://remixtrainer-197919.firebaseio.com",
+    "project_id": "remixtrainer-197919",
+    "storage_bucket": "remixtrainer-197919.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684623129588:android:0286519c704a5d54",
+        "android_client_info": {
+          "package_name": "com.remixtrainer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684623129588-va7qrfan4p8m74tp8p17dmjs98mqipfi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.remixtrainer",
+            "certificate_hash": "b6a6e5330b081d1ba8c2ad188065fafe9e5f1dd8"
+          }
+        },
+        {
+          "client_id": "684623129588-60tps6mr6jqvpdm1bi9o1d2m9mdseo5b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.remixtrainer",
+            "certificate_hash": "89e74636dd102bc3e3247de5fdad8a9baf5a4afa"
+          }
+        },
+        {
+          "client_id": "684623129588-h6svg56d7kgbfjesqie8m5as1tlf0fns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8fUbNnq99Itbm0cvuAkANQCBbi5TzPIg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684623129588-h6svg56d7kgbfjesqie8m5as1tlf0fns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

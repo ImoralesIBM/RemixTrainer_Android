@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:backgroundTint="@color/cardview_dark_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/expand_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_more"
+                />
+            <ImageView
+                android:id="@+id/has_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:src="@drawable/ic_videocam"
+                android:visibility="invisible" />
+            <TextView
+                android:id="@+id/exercise_name"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:textAppearance="?attr/textAppearanceListItem" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/edit_btn"
+                android:src="@android:drawable/ic_menu_edit"
+                android:focusable="true"
+                android:clickable="true"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/label_edit_equipment_type_button"/>
+            <ImageButton
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/delete_btn"
+                android:src="@android:drawable/ic_menu_delete"
+                android:focusable="true"
+                android:clickable="true"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/label_delete_equipment_type_button"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/exercise_details"
+        android:backgroundTint="@color/cardview_light_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/label_muscle_groups"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/admin_muscle_group_list"
+                android:name="com.remixtrainer.AdminExerciseMuscleGroupItemViewFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:context=".AdminExerciseMuscleGroupItemViewFragment"
+                tools:listitem="@layout/fragment_select_muscle_group_item" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/label_equipment_types"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/admin_equipment_type_list"
+                android:name="com.remixtrainer.AdminExerciseEquipmentTypeViewItemFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:context=".AdminExerciseEquipmentTypeViewItemFragment"
+                tools:listitem="@layout/fragment_admin_exercise_equipment_type_view_item" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

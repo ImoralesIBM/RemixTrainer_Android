@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context=".AdminQuickWorkoutActivity">
+
+    <include layout="@layout/content_toolbar"
+        android:id="@+id/main_toolbar" />
+
+    <include layout="@layout/content_header_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_toolbar"
+        android:id="@+id/header_logo" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header_logo"
+        android:layout_above="@id/footer_controls">
+
+        <LinearLayout
+            android:id="@+id/initial_params_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/num_sets_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/label_num_sets" />
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/num_sets">
+                </NumberPicker>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/reps_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/num_reps_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/label_num_reps" />
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/num_reps">
+                </NumberPicker>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/num_reps_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/label_num_reptime" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:id="@+id/time_reps"
+                android:layout_height="match_parent">
+            </NumberPicker>
+
+            <LinearLayout
+                android:id="@+id/time_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/rest_time_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/label_rest_time" />
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/rest_time">
+                </NumberPicker>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/footer_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/save_button"
+            style="?android:textAppearanceSmall"
+            android:background="@color/colorButtonBackground"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_save_quick_workout"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/cancel_button"
+            style="?android:textAppearanceSmall"
+            android:background="@color/colorButtonBackground"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_cancel_edit_quick_workout"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

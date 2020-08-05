@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout tools:context=".SplashscreenActivity" android:background="@color/colorBackground" android:layout_height="match_parent" android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The primary full-screen view. This can be replaced with whatever viewis needed to present your content, e.g. VideoView, SurfaceView,TextureView, etc. -->
+    <ImageView
+        android:id="@+id/splashscreen_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#03FFFFFF"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:src="@mipmap/ic_logo_foreground" />
+</FrameLayout>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context=".AdminMainActivity">
+
+    <include layout="@layout/content_toolbar"
+        android:id="@+id/main_toolbar" />
+
+    <include layout="@layout/content_header_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_toolbar"
+        android:id="@+id/header_logo" />
+
+    <ProgressBar
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/header_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        style="?android:attr/progressBarStyleLarge"
+        android:id="@+id/revert_progress"/>
+
+    <LinearLayout
+        android:id="@+id/pre_admin_main_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header_logo"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/muscle_group_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButtonBackground"
+            android:gravity="center"
+            android:onClick="onEditMuscleGroups"
+            android:text="@string/action_admin_edit_muscle_groups" />
+
+        <Button
+            android:id="@+id/equipment_type_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButtonBackground"
+            android:gravity="center"
+            android:onClick="onEditEquipmentTypes"
+            android:text="@string/action_admin_edit_equipment_types" />
+
+        <Button
+            android:id="@+id/exercise_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButtonBackground"
+            android:gravity="center"
+            android:onClick="onEditExercises"
+            android:text="@string/action_admin_edit_exercises" />
+
+        <Button
+            android:id="@+id/quick_workout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButtonBackground"
+            android:gravity="center"
+            android:onClick="onEditQuickWorkout"
+            android:text="@string/action_admin_edit_quick_workout" />
+
+        <Button
+            android:id="@+id/revert_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButtonBackground"
+            android:gravity="center"
+            android:onClick="onRevert"
+            android:text="@string/action_revert_user_data" />
+
+        <Button
+            android:id="@+id/return_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorButtonBackground"
+            android:gravity="center"
+            android:onClick="onReturn"
+            android:text="@string/action_admin_return" />
+
+    </LinearLayout>
+</RelativeLayout>

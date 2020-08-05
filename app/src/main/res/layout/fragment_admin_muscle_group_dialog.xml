@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:orientation="vertical"
+    tools:context=".AdminMuscleGroupDialogFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/close_btn"
+        android:layout_toEndOf="@id/close_btn">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_muscle_group_name"
+                android:labelFor="@+id/muscle_group_name"/>
+
+            <EditText
+                android:id="@+id/muscle_group_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/save_muscle_group_button"
+                    style="?android:textAppearanceSmall"
+                    android:background="@color/colorButtonBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/action_save_muscle_group"/>
+
+                <Button
+                    android:id="@+id/cancel_edit_button"
+                    style="?android:textAppearanceSmall"
+                    android:background="@color/colorButtonBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/action_cancel_edit_muscle_group"/>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/close_btn"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_gravity="top|start"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/label_close_btn"/>
+
+</RelativeLayout>
