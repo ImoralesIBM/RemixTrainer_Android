@@ -6,15 +6,11 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -39,9 +35,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 /**
@@ -55,7 +48,7 @@ public class LoginActivity extends AppCompatActivity
     /**
      * Keep track of the registration task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private Task<AuthResult> mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -117,16 +110,19 @@ public class LoginActivity extends AppCompatActivity
                     cancel = true;
                 }
 
-                mAuth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener((task) -> {
+                if (cancel) {
+                    focusView.requestFocus();
+                } else {
+                    mAuth.sendPasswordResetEmail(email)
+                            .addOnCompleteListener((task) -> {
                                 if (task.isSuccessful())
                                 {
                                     mResetPasswordStatusMessage.setVisibility(View.VISIBLE);
-                                } else {
                                 }
                                 showProgress(false);
                             });
-                });
+                }
+        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -179,8 +175,31 @@ public class LoginActivity extends AppCompatActivity
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask = mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(LoginActivity.this, (task) -> {
+                        DatabaseLoadCompleteListener loadCompleteListener = () -> {
+                            startActivity(new Intent(LoginActivity.this, InitialParamsActivity.class));
+                            finish();
+                        };
+
+                        showProgress(false);
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful())
+                        {
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.requestFocus();
+                        } else {
+                            mDatabase.setLoadCompleteListenerAndUid(loadCompleteListener, FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        }
+
+                        mAuthTask = null;
+                    }).addOnCanceledListener(() -> {
+                            showProgress(false);
+                            mAuthTask = null;
+                        });
         }
     }
 
@@ -235,72 +254,6 @@ public class LoginActivity extends AppCompatActivity
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean>
-    {
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password)
-        {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params)
-        {
-            showProgress(true);
-
-            //create user
-            mAuth.signInWithEmailAndPassword(mEmail, mPassword)
-                    .addOnCompleteListener(LoginActivity.this, (task) -> {
-                            DatabaseLoadCompleteListener loadCompleteListener = () -> {
-                                    startActivity(new Intent(LoginActivity.this, InitialParamsActivity.class));
-                                    finish();
-                                };
-
-                            showProgress(false);
-
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful())
-                            {
-                                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                                mPasswordView.requestFocus();
-                            } else {
-                                mDatabase.setLoadCompleteListenerAndUid(loadCompleteListener, FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            }
-                        });
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                // finish();
-            } else
-            {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }

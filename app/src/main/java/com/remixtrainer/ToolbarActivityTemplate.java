@@ -1,7 +1,6 @@
 package com.remixtrainer;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 public class ToolbarActivityTemplate extends AppCompatActivity {
     protected FirebaseAuth mBaseAuth;
@@ -25,6 +26,7 @@ public class ToolbarActivityTemplate extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_items, menu);
+        menu.findItem(R.id.admin_item).setVisible(mDatabase.mIsAdmin);
         return true;
     }
 

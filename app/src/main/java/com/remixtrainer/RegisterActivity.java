@@ -6,15 +6,11 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -24,11 +20,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,13 +31,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 /**
- * A login screen that offers login via email/password.
+ * A Register screen that offers registration via email/password.
  */
 public class RegisterActivity extends AppCompatActivity
 {
@@ -53,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity
     /**
      * Keep track of the registration task to ensure we can cancel it if requested.
      */
-    private UserRegistrationTask mAuthTask = null;
+    private Task<AuthResult> mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mFirstNameView, mLastNameView, mEmailView;
@@ -171,8 +162,35 @@ public class RegisterActivity extends AppCompatActivity
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserRegistrationTask(first_name, last_name, email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask = mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(RegisterActivity.this, (task) -> {
+                        showProgress(false);
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful())
+                        {
+                            mEmailView.setError(getString(R.string.error_cannot_register));
+                        } else {
+                            DatabaseLoadCompleteListener loadCompleteListener = () -> {
+                                    FirebaseAuth.getInstance().getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(first_name + " " + last_name)
+                                            .build());
+
+                                    startActivity(new Intent(RegisterActivity.this, InitialParamsActivity.class));
+                                    finish();
+                                };
+
+                            mDatabase.setLoadCompleteListenerAndUid(loadCompleteListener, FirebaseAuth.getInstance().getCurrentUser().getUid(), true);
+                        }
+
+                        showProgress(false);
+                        mAuthTask = null;
+                    }).addOnCanceledListener(() -> {
+                            showProgress(false);
+                            mAuthTask = null;
+                        });
         }
     }
 
@@ -226,83 +244,6 @@ public class RegisterActivity extends AppCompatActivity
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mRegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserRegistrationTask extends AsyncTask<Void, Void, Boolean>
-    {
-
-        private final String mFirstName;
-        private final String mLastName;
-        private final String mEmail;
-        private final String mPassword;
-
-        UserRegistrationTask(String first_name, String last_name, String email, String password)
-        {
-            mFirstName = first_name;
-            mLastName = last_name;
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params)
-        {
-            DatabaseLoadCompleteListener loadCompleteListener = new DatabaseLoadCompleteListener() {
-                @Override
-                public void onLoadComplete() {
-                    FirebaseAuth.getInstance().getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder()
-                            .setDisplayName(mFirstName + " " + mLastName)
-                            .build());
-
-                    startActivity(new Intent(RegisterActivity.this, InitialParamsActivity.class));
-                    finish();
-                }
-            };
-
-            showProgress(true);
-
-            //create user
-            mAuth.createUserWithEmailAndPassword(mEmail, mPassword)
-                    .addOnCompleteListener(RegisterActivity.this, (task) -> {
-                            showProgress(false);
-
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful())
-                            {
-                                mEmailView.setError(getString(R.string.error_cannot_register));
-                            } else {
-                                mDatabase.setLoadCompleteListenerAndUid(loadCompleteListener, FirebaseAuth.getInstance().getCurrentUser().getUid(), true);
-                            }
-                        });
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-//                finish();
-            } else
-                {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }

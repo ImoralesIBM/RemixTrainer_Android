@@ -24,7 +24,6 @@ import java.util.stream.StreamSupport;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.util.ArrayMap;
-import android.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,6 +40,8 @@ public class DatabaseLocal {
     private DatabaseReference mMuscleGroupListRootDefaultRef, mEquipmentTypeListRootDefaultRef, mExerciseTypeListRootDefaultRef;
     private DatabaseReference mConfigurationRootDefaultRef;
 
+    public Boolean mIsAdmin;
+
     public Map<String, Map<String, Object>> mConfigurationSettings = new ArrayMap<>();
 
     public Map<Integer, String> mMuscleGroupList = new ArrayMap<>();
@@ -53,13 +54,16 @@ public class DatabaseLocal {
         mDatabase = FirebaseDatabase.getInstance();
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        //No lists are ready in the beginning
+        // By default, no user is an admin
+        mIsAdmin = false;
+
+        // No lists are ready in the beginning
         mMuscleGroupsReady = false;
         mEquipmentTypesReady = false;
         mExercisesReady = false;
         mConfigurationReady = false;
 
-        //We don't know who will log in yet
+        // We don't know who will log in yet
         mUserId = "";
 
         mMuscleGroupListRootDefaultRef = mDatabase.getReference("muscle_groups_default");
@@ -90,6 +94,8 @@ public class DatabaseLocal {
         mLoadCompleteListener = listener;
         mUserId = userId;
 
+        mIsAdmin = false;
+
         mMuscleGroupsReady = false;
         mEquipmentTypesReady = false;
         mExercisesReady = false;
@@ -107,12 +113,16 @@ public class DatabaseLocal {
 
     private void retrieveData(String userId, Boolean isNewUser)
     {
+        DatabaseReference adminFlag;
         DatabaseReference muscleGroup, equipmentType, exerciseType, configSettings;
 
         mDatabaseUserRootRef = mDatabase.getReference("user_data").child(userId);
         mDatabaseUserRootRef.keepSynced(true);
 
+        adminFlag = mDatabaseUserRootRef.child("is_admin");
+
         if (isNewUser) {
+            adminFlag.setValue(false);
             muscleGroup = mMuscleGroupListRootDefaultRef;
             equipmentType = mEquipmentTypeListRootDefaultRef;
             exerciseType = mExerciseTypeListRootDefaultRef;
@@ -126,10 +136,25 @@ public class DatabaseLocal {
             configSettings = mDatabaseUserRootRef.child("configuration");
         }
 
+        adminFlag.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Object rawAdminValue = snapshot.getValue();
+                if (rawAdminValue != null) {
+                    mIsAdmin = Boolean.parseBoolean(rawAdminValue.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         muscleGroup.addValueEventListener(new ValueEventListener() {
 
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
                 {
@@ -150,7 +175,7 @@ public class DatabaseLocal {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -184,7 +209,7 @@ public class DatabaseLocal {
 
         equipmentType.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
                 {
@@ -205,7 +230,7 @@ public class DatabaseLocal {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -239,7 +264,7 @@ public class DatabaseLocal {
 
         exerciseType.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
                 {
@@ -263,7 +288,7 @@ public class DatabaseLocal {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -300,7 +325,7 @@ public class DatabaseLocal {
         configSettings.addValueEventListener(new ValueEventListener() {
 
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
                 {
@@ -322,7 +347,7 @@ public class DatabaseLocal {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -383,14 +408,14 @@ public class DatabaseLocal {
         mDatabaseUserRootRef.child("muscle_groups").orderByChild("id_group").equalTo(idGroup).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                             uniqueKeySnapshot.child("description").getRef().setValue(description);
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
     }
@@ -400,28 +425,28 @@ public class DatabaseLocal {
         mDatabaseUserRootRef.child("muscle_groups").orderByChild("id_group").equalTo(idGroup).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                             uniqueKeySnapshot.getRef().removeValue();
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
 
         mDatabaseUserRootRef.child("exercises").orderByChild("muscle_groups").orderByChild("id_group").equalTo(idGroup).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                             uniqueKeySnapshot.getRef().removeValue();
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
     }
@@ -448,7 +473,7 @@ public class DatabaseLocal {
         mDatabaseUserRootRef.child("fitness_equipment").orderByChild("id_equipment").equalTo(idEquipment).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                             uniqueKeySnapshot.child("code").getRef().setValue(code);
                             uniqueKeySnapshot.child("description").getRef().setValue(description);
@@ -456,7 +481,7 @@ public class DatabaseLocal {
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
     }
@@ -466,27 +491,27 @@ public class DatabaseLocal {
         mDatabaseUserRootRef.child("fitness_equipment").orderByChild("id_equipment").equalTo(idEquipment).getRef().addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                             uniqueKeySnapshot.getRef().removeValue();
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
         mDatabaseUserRootRef.child("exercises").orderByChild("equipment_types").orderByChild("id_equipment").equalTo(idEquipment).getRef().addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                             uniqueKeySnapshot.getRef().removeValue();
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
     }
@@ -504,12 +529,12 @@ public class DatabaseLocal {
         newExProperties.put("id_exercise", newIdExercise.toString());
         newExProperties.put("description", description);
         newExProperties.put("muscle_groups", muscleGroupList.stream()
-                .map(i -> Stream.of(new AbstractMap.SimpleEntry("id_group", i))
+                .map(i -> Stream.of(new AbstractMap.SimpleEntry<>("id_group", i))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
                 .collect(Collectors.toList()));
         newExProperties.put("equipment_types", equipmentTypeList.entrySet().stream()
-                .map(i -> Stream.of(new AbstractMap.SimpleEntry("id_equipment", i.getKey()),
-                        new AbstractMap.SimpleEntry("video_link", i.getValue()))
+                .map(i -> Stream.of(new AbstractMap.SimpleEntry<>("id_equipment", i.getKey()),
+                        new AbstractMap.SimpleEntry<>("video_link", i.getValue()))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
                 .collect(Collectors.toList()));
 
@@ -523,26 +548,26 @@ public class DatabaseLocal {
         mDatabaseUserRootRef.child("exercise_types").orderByChild("id_exercise").equalTo(idExercise).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                             uniqueKeySnapshot.child("description").getRef().setValue(description);
                             uniqueKeySnapshot.child("muscle_groups").getRef()
                                     .setValue(muscleGroupList.stream()
-                                    .map(i -> Stream.of(new AbstractMap.SimpleEntry("id_group", i))
+                                    .map(i -> Stream.of(new AbstractMap.SimpleEntry<>("id_group", i))
                                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
                                     .collect(Collectors.toList()));
 
                             uniqueKeySnapshot.child("equipment_types").getRef()
                                     .setValue(equipmentTypeList.entrySet().stream()
-                                    .map(i -> Stream.of(new AbstractMap.SimpleEntry("id_equipment", i.getKey()),
-                                            new AbstractMap.SimpleEntry("video_link", i.getValue()))
+                                    .map(i -> Stream.of(new AbstractMap.SimpleEntry<>("id_equipment", i.getKey()),
+                                            new AbstractMap.SimpleEntry<>("video_link", i.getValue()))
                                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
                                     .collect(Collectors.toList()));
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
     }
@@ -552,14 +577,14 @@ public class DatabaseLocal {
         mDatabaseUserRootRef.child("exercise_types").orderByChild("id_exercise").equalTo(idExercise).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                             uniqueKeySnapshot.getRef().removeValue();
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
     }
