@@ -436,12 +436,28 @@ public class DatabaseLocal {
                     }
                 });
 
-        mDatabaseUserRootRef.child("exercises").orderByChild("muscle_groups").orderByChild("id_group").equalTo(idGroup).addListenerForSingleValueEvent(
+        mDatabaseUserRootRef.child("exercises").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
-                            uniqueKeySnapshot.getRef().removeValue();
+                        for (DataSnapshot exerciseSnapshot: dataSnapshot.getChildren()) {
+                            exerciseSnapshot.getRef().child("muscle_groups")
+                                    .orderByChild("id_group").equalTo(idGroup)
+                                    .addListenerForSingleValueEvent(
+                                            new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot muscleGroupSnapshot) {
+                                                    for (DataSnapshot uniqueKeySnapshot: muscleGroupSnapshot.getChildren()) {
+                                                        uniqueKeySnapshot.getRef().removeValue();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            }
+                                    );
                         }
                     }
 
@@ -501,12 +517,29 @@ public class DatabaseLocal {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-        mDatabaseUserRootRef.child("exercises").orderByChild("equipment_types").orderByChild("id_equipment").equalTo(idEquipment).getRef().addListenerForSingleValueEvent(
+
+        mDatabaseUserRootRef.child("exercises").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
-                            uniqueKeySnapshot.getRef().removeValue();
+                        for (DataSnapshot exerciseSnapshot: dataSnapshot.getChildren()) {
+                            exerciseSnapshot.getRef().child("equipment_types")
+                                    .orderByChild("id_equipment").equalTo(idEquipment)
+                                    .addListenerForSingleValueEvent(
+                                            new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot equipmentTypeSnapshot) {
+                                                    for (DataSnapshot uniqueKeySnapshot: equipmentTypeSnapshot.getChildren()) {
+                                                        uniqueKeySnapshot.getRef().removeValue();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            }
+                                    );
                         }
                     }
 
