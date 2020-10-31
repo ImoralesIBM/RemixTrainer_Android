@@ -107,6 +107,8 @@ public class DatabaseLocal {
         mConfigurationSettings.clear();
 
         mDatabaseUserRootRef.removeValue();
+        mDatabase.getReference("user_data").child(userId)
+                .child("is_admin").setValue(mIsAdmin);
 
         retrieveData(mUserId, true);
     }
