@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PreliminaryWorkout extends ToolbarActivityTemplate {
 
-    private Button mRemixButton, mNextButton;
+    private Button mBackButton, mRemixButton, mNextButton;
     private ImageButton mSelAllButton, mDiscAllButton, mInvertButton;
     private PreliminaryWorkoutViewModel mViewModel;
     private String mRepString;
@@ -49,6 +49,8 @@ public class PreliminaryWorkout extends ToolbarActivityTemplate {
         else {
             mRepString = inboundOptionValues.getString("repTime");
         }
+        mRepString += ("; " + String.valueOf(inboundOptionValues.getInt("numSets")*getResources().getInteger(R.integer.sets_step)) + " sets");
+        mRepString += ("; " + String.valueOf(inboundOptionValues.getInt("restTime")*getResources().getInteger(R.integer.rest_step)) + " sec rest");
 
         mViewModel.GenerateInitialWorkout();
 
@@ -60,6 +62,14 @@ public class PreliminaryWorkout extends ToolbarActivityTemplate {
 
         mInvertButton = findViewById(R.id.invert_sel);
         mInvertButton.setOnClickListener(v -> { mViewModel.invertRegenFlags(); });
+
+        mBackButton = findViewById(R.id.back_button);
+        mBackButton.setOnClickListener(v -> {
+            boolean cancel = false;
+            View focusView = null;
+
+            finish();
+        });
 
         mRemixButton = findViewById(R.id.remix_workout_button);
         mRemixButton.setOnClickListener(v -> {
@@ -93,7 +103,6 @@ public class PreliminaryWorkout extends ToolbarActivityTemplate {
                 nextIntent.putExtras(optionValues);
 
                 startActivity(nextIntent);
-                //finish();
             });
     }
 }

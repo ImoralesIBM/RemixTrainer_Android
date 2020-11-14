@@ -13,8 +13,6 @@ public class FinalWorkoutViewModel extends ViewModel {
 
     private int ExercisesPerGroup = 3;
 
-    public String mRepString;
-
     public void setSelectedMuscleGroups(ArrayList<Integer> rawSelectionList)
     {
         selectedMuscleGroups = new ArrayList<>(rawSelectionList);

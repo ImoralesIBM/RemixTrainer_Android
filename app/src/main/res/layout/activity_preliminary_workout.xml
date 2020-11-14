@@ -22,57 +22,39 @@
             android:orientation="horizontal"
             android:id="@+id/selection_controls"
             android:layout_below="@id/header_logo">
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageButton
-                    android:id="@+id/keep_all"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/keep_all_ex_button" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="@string/key_keep_all_ex"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageButton
-                    android:id="@+id/discard_all"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/discard_all_ex_button" />
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/key_discard_all_ex"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageButton
-                    android:id="@+id/invert_sel"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/invert_ex_button" />
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/key_invert_ex" />
-            </LinearLayout>
+        <ImageButton
+            android:id="@+id/keep_all"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:src="@drawable/keep_all_ex_button" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/key_keep_all_ex"/>
+        <ImageButton
+            android:id="@+id/discard_all"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/discard_all_ex_button" />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/key_discard_all_ex"/>
+        <ImageButton
+            android:id="@+id/invert_sel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/invert_ex_button" />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/key_invert_ex" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -133,6 +115,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
+                android:id="@+id/back_button"
+                style="?android:textAppearanceSmall"
+                android:background="@color/colorButtonBackground"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_back"
+                android:textStyle="bold" />
+            <Button
                 android:id="@+id/remix_workout_button"
                 style="?android:textAppearanceSmall"
                 android:background="@color/colorButtonBackground"
@@ -141,16 +133,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_remix_workout"
-                android:textStyle="bold" />
-            <Button
-                android:id="@+id/accept_workout_button"
-                style="?android:textAppearanceSmall"
-                android:background="@color/colorButtonBackground"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_accept_workout"
                 android:textStyle="bold" />
             <Button
                 android:id="@+id/start_workout_button"

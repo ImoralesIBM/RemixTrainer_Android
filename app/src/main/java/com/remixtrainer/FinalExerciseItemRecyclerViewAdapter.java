@@ -34,16 +34,15 @@ public class FinalExerciseItemRecyclerViewAdapter extends RecyclerView.Adapter<F
     private int mIdGroup, mPosGroup;
 
     private final List<Integer> mValues;
-    private String mRepString;
 
     private final OnListFragmentInteractionListener mListener;
 
 
-    public FinalExerciseItemRecyclerViewAdapter(List<Integer> items, int idGroup, int posGroup, String repString, FinalWorkoutViewModel fwvm, OnListFragmentInteractionListener listener) {
+    public FinalExerciseItemRecyclerViewAdapter(List<Integer> items, int idGroup, int posGroup,
+                                                FinalWorkoutViewModel fwvm, OnListFragmentInteractionListener listener) {
         mValues = items;
         mIdGroup = idGroup;
         mPosGroup = posGroup;
-        mRepString = repString;
         mViewModel = fwvm;
 
         mListener = listener;
@@ -61,9 +60,8 @@ public class FinalExerciseItemRecyclerViewAdapter extends RecyclerView.Adapter<F
         Map<Integer, String> localEquipmentVideoList;
 
         holder.mIdExercise = mValues.get(position);
-        holder.mExerciseName.setText(mDatabase.mExerciseTypeList.get(holder.mIdExercise).getDescription().toString());
+        holder.mExerciseName.setText(mDatabase.mExerciseTypeList.get(holder.mIdExercise).getDescription());
         holder.mExerciseEquipment.setText("(" + mDatabase.mExerciseTypeList.get(holder.mIdExercise).getEquipmentCodeList(mViewModel.getSelectedEquipmentTypes()) + ")");
-        holder.mExerciseReps.setText("(" + mRepString + ")");
 
         localEquipmentVideoList = new ArrayMap<>();
         localEquipmentVideoList
@@ -84,7 +82,7 @@ public class FinalExerciseItemRecyclerViewAdapter extends RecyclerView.Adapter<F
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mExerciseName, mExerciseEquipment, mExerciseReps;
+        public final TextView mExerciseName, mExerciseEquipment;
         public final RecyclerView mVideoList;
         public int mIdExercise;
 
@@ -93,7 +91,6 @@ public class FinalExerciseItemRecyclerViewAdapter extends RecyclerView.Adapter<F
             mView = view;
             mExerciseName = view.findViewById(R.id.exercise_name);
             mExerciseEquipment = view.findViewById(R.id.exercise_equipment);
-            mExerciseReps = view.findViewById(R.id.exercise_reps);
             mVideoList = view.findViewById(R.id.video_list);
         }
 

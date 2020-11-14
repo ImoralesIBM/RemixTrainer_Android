@@ -75,7 +75,6 @@ public class SelectGroupExerciseActivity extends ToolbarActivityTemplate
                 nextIntent.putExtras(optionValues);
 
                 startActivity(nextIntent);
-                finish();
             });
         mNextButton.setOnLongClickListener(v -> { return true; });
     }

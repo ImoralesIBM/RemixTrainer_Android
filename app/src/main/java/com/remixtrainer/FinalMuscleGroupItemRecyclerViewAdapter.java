@@ -22,14 +22,13 @@ public class FinalMuscleGroupItemRecyclerViewAdapter extends RecyclerView.Adapte
     private final List<ArrayList<Integer>> mChildValues;
     private final OnListFragmentInteractionListener mListener;
     private FinalWorkoutViewModel mViewModel;
-    private String mRepString;
 
 
-    public FinalMuscleGroupItemRecyclerViewAdapter(List<Integer> parentItems, List<ArrayList<Integer>> childItems, String repString, OnListFragmentInteractionListener listener, FinalWorkoutViewModel fwvm) {
+    public FinalMuscleGroupItemRecyclerViewAdapter(List<Integer> parentItems, List<ArrayList<Integer>> childItems,
+                                                   OnListFragmentInteractionListener listener, FinalWorkoutViewModel fwvm) {
         mParentValues = parentItems;
         mChildValues = childItems;
         mListener = listener;
-        mRepString = repString;
         mViewModel = fwvm;
     }
 
@@ -44,7 +43,7 @@ public class FinalMuscleGroupItemRecyclerViewAdapter extends RecyclerView.Adapte
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mIdGroup = mParentValues.get(position);
         holder.mGroupHeading.setText(mDatabase.mMuscleGroupList.get(holder.mIdGroup));
-        holder.mExerciseList.setAdapter(new FinalExerciseItemRecyclerViewAdapter(mChildValues.get(position), holder.mIdGroup, position, mRepString, mViewModel, mListener));
+        holder.mExerciseList.setAdapter(new FinalExerciseItemRecyclerViewAdapter(mChildValues.get(position), holder.mIdGroup, position, mViewModel, mListener));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

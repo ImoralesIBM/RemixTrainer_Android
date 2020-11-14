@@ -12,16 +12,27 @@
         android:id="@+id/main_toolbar" />
 
     <include layout="@layout/content_header_logo"
+        android:id="@+id/header_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/main_toolbar"
-        android:id="@+id/header_logo" />
+        android:layout_below="@id/main_toolbar" />
+
+    <TextView
+        android:id="@+id/rep_string"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_below="@id/header_logo"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceListItem" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/header_logo"
+        android:layout_below="@id/rep_string"
         android:layout_above="@id/footer_controls">
 
         <FrameLayout android:id="@+id/selected_muscle_group_list_placeholder"

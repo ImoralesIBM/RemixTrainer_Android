@@ -33,9 +33,7 @@ public class FinalMuscleGroupItemFragment extends Fragment {
 
 
   public static FinalMuscleGroupItemFragment newInstance(int columnCount) {
-    FinalMuscleGroupItemFragment fragment = new FinalMuscleGroupItemFragment();
-
-    return fragment;
+    return new FinalMuscleGroupItemFragment();
   }
 
   @Override
@@ -55,7 +53,7 @@ public class FinalMuscleGroupItemFragment extends Fragment {
       RecyclerView recyclerView = (RecyclerView) view;
       recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-      recyclerView.setAdapter(new FinalMuscleGroupItemRecyclerViewAdapter(mViewModel.getSelectedMuscleGroups(), mViewModel.getAllExercises(), mViewModel.mRepString, mListener, mViewModel));
+      recyclerView.setAdapter(new FinalMuscleGroupItemRecyclerViewAdapter(mViewModel.getSelectedMuscleGroups(), mViewModel.getAllExercises(), mListener, mViewModel));
     }
     return view;
   }

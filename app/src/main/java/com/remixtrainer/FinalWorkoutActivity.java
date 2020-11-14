@@ -10,11 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class FinalWorkoutActivity extends ToolbarActivityTemplate implements FinalEquipmentTypeVideoItemFragment.OnListFragmentInteractionListener {
     private FinalWorkoutViewModel mViewModel;
+    private TextView mRepString;
     private Button mRegenerateButton;
 
     @Override
@@ -36,7 +38,6 @@ public class FinalWorkoutActivity extends ToolbarActivityTemplate implements Fin
         mViewModel = ViewModelProviders.of(this).get(FinalWorkoutViewModel.class);
         mViewModel.setSelectedMuscleGroups(inboundOptionValues.getIntegerArrayList("muscleGroups"));
         mViewModel.setSelectedEquipmentTypes(inboundOptionValues.getIntegerArrayList("equipmentTypes"));
-        mViewModel.mRepString = inboundOptionValues.getString("repString");
 
         for (int i = 0; i < mViewModel.getSelectedMuscleGroups().size(); i++)
         {
@@ -44,6 +45,9 @@ public class FinalWorkoutActivity extends ToolbarActivityTemplate implements Fin
         }
 
         mViewModel.setExercises(exListTmp);
+
+        mRepString = (TextView) findViewById(R.id.rep_string);
+        mRepString.setText(inboundOptionValues.getString("repString"));
 
         mRegenerateButton = findViewById(R.id.regenerate_workout_button);
         mRegenerateButton.setOnClickListener(v -> {

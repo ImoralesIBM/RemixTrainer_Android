@@ -94,8 +94,6 @@ public class DatabaseLocal {
         mLoadCompleteListener = listener;
         mUserId = userId;
 
-        mIsAdmin = false;
-
         mMuscleGroupsReady = false;
         mEquipmentTypesReady = false;
         mExercisesReady = false;
@@ -506,7 +504,7 @@ public class DatabaseLocal {
 
     public void deleteEquipmentTypeFromDB(Integer idEquipment)
     {
-        mDatabaseUserRootRef.child("fitness_equipment").orderByChild("id_equipment").equalTo(idEquipment).getRef().addListenerForSingleValueEvent(
+        mDatabaseUserRootRef.child("fitness_equipment").orderByChild("id_equipment").equalTo(idEquipment).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -561,7 +559,7 @@ public class DatabaseLocal {
 
         ArrayMap<String, Object> newExProperties = new ArrayMap<>();
 
-        newExProperties.put("id_exercise", newIdExercise.toString());
+        newExProperties.put("id_exercise", newIdExercise);
         newExProperties.put("description", description);
         newExProperties.put("muscle_groups", muscleGroupList.stream()
                 .map(i -> Stream.of(new AbstractMap.SimpleEntry<>("id_group", i))
