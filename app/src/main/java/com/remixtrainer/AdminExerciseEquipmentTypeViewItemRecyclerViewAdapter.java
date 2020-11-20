@@ -57,7 +57,7 @@ public class AdminExerciseEquipmentTypeViewItemRecyclerViewAdapter extends Recyc
         }
         holder.mContentCode.setText("("+mDatabase.mEquipmentTypeList.get(holder.mIdEquipment).code+")");
 
-        if (mValues.containsKey(holder.mIdEquipment)) {
+        if (!mVideoLinks.getOrDefault(holder.mIdEquipment, "").isEmpty()) {
             holder.mYouTubeFrame.setVisibility(View.VISIBLE);
             holder.mYouTubeThumbnail.initialize(holder.itemView.getContext().getResources().getString(R.string.YouTubeAPI_Key),
                     new YouTubeThumbnailView.OnInitializedListener() {

@@ -70,8 +70,13 @@ public class AdminExerciseItemRecyclerViewAdapter extends RecyclerView.Adapter<A
 
 
         holder.mContentView.setText(localExercise.getDescription());
-        holder.mMuscleGroupList.setAdapter(new AdminExerciseMuscleGroupViewItemRecyclerViewAdapter(localMuscleGroups));
-        holder.mEquipmentTypeList.setAdapter(new AdminExerciseEquipmentTypeViewItemRecyclerViewAdapter(localEquipmentTypes, localExercise.getEquipmentAndVideos(), mListener));
+        holder.mMuscleGroupList.setAdapter(
+                new AdminExerciseMuscleGroupViewItemRecyclerViewAdapter(localMuscleGroups)
+        );
+        holder.mEquipmentTypeList.setAdapter(
+                new AdminExerciseEquipmentTypeViewItemRecyclerViewAdapter(localEquipmentTypes,
+                        localExercise.getEquipmentAndVideos(), mListener)
+        );
 
         holder.mView.setOnClickListener(v -> {
                 if (null != mListener) {

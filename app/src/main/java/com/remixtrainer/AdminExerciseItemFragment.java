@@ -34,9 +34,7 @@ public class AdminExerciseItemFragment extends Fragment {
   }
 
   public static AdminExerciseItemFragment newInstance(int columnCount) {
-    AdminExerciseItemFragment fragment = new AdminExerciseItemFragment();
-
-    return fragment;
+    return new AdminExerciseItemFragment();
   }
 
   @Override
@@ -55,7 +53,11 @@ public class AdminExerciseItemFragment extends Fragment {
       RecyclerView recyclerView = (RecyclerView) view;
       recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-      recyclerView.setAdapter(new AdminExerciseItemRecyclerViewAdapter(new ArrayList<>(mDatabase.mExerciseTypeList.keySet()), mListener));
+      recyclerView.setAdapter(
+              new AdminExerciseItemRecyclerViewAdapter(
+                      new ArrayList<>(mDatabase.mExerciseTypeList.keySet()), mListener
+              )
+      );
     }
     return view;
   }
@@ -64,7 +66,12 @@ public class AdminExerciseItemFragment extends Fragment {
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-
+    if (context instanceof AdminExerciseEquipmentTypeViewItemFragment.OnListFragmentInteractionListener) {
+      mListener = (AdminExerciseEquipmentTypeViewItemFragment.OnListFragmentInteractionListener) context;
+    } else {
+      throw new RuntimeException(context.toString()
+              + " must implement OnListFragmentInteractionListener");
+    }
   }
 
   @Override
@@ -84,5 +91,6 @@ public class AdminExerciseItemFragment extends Fragment {
    * >Communicating with Other Fragments</a> for more information.
    */
   public interface OnListFragmentInteractionListener {
+    void onPlayVideo(String videoLink);
   }
 }
