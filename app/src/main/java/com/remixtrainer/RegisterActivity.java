@@ -203,7 +203,7 @@ public class RegisterActivity extends AppCompatActivity
 
     private boolean isEmailValid(String email)
     {
-        return email.matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$");
+        return email.matches(getString(R.string.email_validator));
     }
 
     private boolean isPasswordValid(String password)

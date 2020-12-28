@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorBackground"
@@ -17,17 +18,59 @@
         android:layout_below="@id/main_toolbar"
         android:id="@+id/header_logo" />
 
+    <LinearLayout
+        android:id="@+id/header_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_logo"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/exercise_name_query"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:hint="@string/label_search_by_name" />
+        <Button
+            android:id="@+id/set_filters_button"
+            style="?android:textAppearanceSmall"
+            android:background="@color/colorButtonBackground"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_set_filters"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/clear_filters_button"
+            style="?android:textAppearanceSmall"
+            android:background="@color/colorButtonBackground"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_clear_filters"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/main_list"
-        android:layout_below="@id/header_logo"
+        android:layout_below="@id/header_controls"
         android:layout_above="@id/footer_controls">
 
-        <FrameLayout android:id="@+id/selected_exercise_list_placeholder"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/selected_exercise_list"
+            android:name="com.remixtrainer.AdminExerciseItemFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:context=".AdminExerciseItemFragment"
+            tools:listitem="@layout/fragment_admin_exercise_item" />
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout

@@ -6,22 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.remixtrainer.SelectMuscleGroupItemFragment.OnListFragmentInteractionListener;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class EditExerciseMuscleGroupItemRecyclerViewAdapter extends RecyclerView.Adapter<EditExerciseMuscleGroupItemRecyclerViewAdapter.ViewHolder> {
+public class AdminEditExerciseMuscleGroupItemRecyclerViewAdapter extends RecyclerView.Adapter<AdminEditExerciseMuscleGroupItemRecyclerViewAdapter.ViewHolder> {
 
     private final AdminEditExerciseViewModel mViewModel;
     private final ArrayMap<Integer, String> mValues;
 
-    public EditExerciseMuscleGroupItemRecyclerViewAdapter(Map<Integer, String> items, AdminEditExerciseViewModel aeevm) {
+    public AdminEditExerciseMuscleGroupItemRecyclerViewAdapter(Map<Integer, String> items, AdminEditExerciseViewModel aeevm) {
         mValues = new ArrayMap<>(items.size());
         mValues.putAll(items);
 
@@ -31,7 +25,7 @@ public class EditExerciseMuscleGroupItemRecyclerViewAdapter extends RecyclerView
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_edit_exercise_muscle_group_item, parent, false);
+                .inflate(R.layout.fragment_admin_edit_exercise_muscle_group_item, parent, false);
         return new ViewHolder(view);
     }
 

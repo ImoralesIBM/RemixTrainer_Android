@@ -21,12 +21,9 @@ import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 public class AdminEquipmentItemRecyclerViewAdapter extends RecyclerView.Adapter<AdminEquipmentItemRecyclerViewAdapter.ViewHolder> {
 
     private final ArrayList<Integer> mValues;
-    private final OnListFragmentInteractionListener mListener;
 
-    public AdminEquipmentItemRecyclerViewAdapter(List<Integer> items, OnListFragmentInteractionListener listener) {
+    public AdminEquipmentItemRecyclerViewAdapter(List<Integer> items) {
         mValues = new ArrayList<>(items);
-
-        mListener = listener;
     }
 
     @Override

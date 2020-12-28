@@ -2,53 +2,36 @@ package com.remixtrainer;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
-import static com.remixtrainer.RemixTrainerApplication.mDatabase;
-
-
 /**
  * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
  */
-public class AdminEquipmentItemFragment extends Fragment {
-
-    private OnListFragmentInteractionListener mListener;
+public class AdminFilterMuscleGroupItemFragment extends Fragment {
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public AdminEquipmentItemFragment() {
+    public AdminFilterMuscleGroupItemFragment() {
     }
 
-    public static AdminEquipmentItemFragment newInstance(int columnCount) {
-        return new AdminEquipmentItemFragment();
+    @SuppressWarnings("unused")
+    public static AdminFilterMuscleGroupItemFragment newInstance() {
+        return new AdminFilterMuscleGroupItemFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /**
@@ -62,5 +45,6 @@ public class AdminEquipmentItemFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
+        void onMuscleGroupItemSelected(int itemId, boolean isChecked);
     }
 }

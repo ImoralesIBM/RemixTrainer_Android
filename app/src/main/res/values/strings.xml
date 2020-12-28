@@ -11,7 +11,7 @@
     <string name="action_sign_in_short">Sign in</string>
 
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">Password must have between 8 and 255 characters and contain an uppercase letter, a lowercase letter, a digit, and a special character.</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_cannot_register">User with this account already exists</string>
@@ -61,6 +61,8 @@
 
     <string name="label_rest_time">Rest Time</string>
 
+    <string name="label_search_by_name">Search by Name</string>
+
     <string name="status_recovery_email_sent">We have sent you instructions to reset your password!</string>
 
     <string name="prompt_first_name">First Name</string>
@@ -95,6 +97,9 @@
     <string name="action_add_exercise">Add Exercise</string>
     <string name="action_add_muscle_group">Add Muscle Group</string>
     <string name="action_add_equipment_type">Add Equipment Type</string>
+
+    <string name="action_set_filters">Set Filters</string>
+    <string name="action_clear_filters">Clear Filters</string>
 
     <string name="action_save_exercise">Save</string>
     <string name="action_cancel_edit_exercise">Cancel</string>
@@ -139,6 +144,9 @@
     <string name="label_muscle_groups">Muscle Groups</string>
     <string name="label_equipment_types">Equipment Types</string>
 
+    <!--- Regular expressions -->
+    <string name="email_validator">(?:[a-z0-9!#$%&amp;\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;\'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])</string>
+    <string name="password_validator">(?=^.{8,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*</string>
 
     <string name="YouTubeAPI_Key">AIzaSyAgDJ6KeUjowDpaHAintjrK3RWNOHP1NTY</string>
 </resources>

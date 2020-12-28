@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:orientation="vertical"
+    tools:context=".AdminSetExerciseFiltersDialogFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/close_btn"
+        android:layout_toEndOf="@id/close_btn">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/label_muscle_groups"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/mg_list"
+                        android:name="com.remixtrainer.AdminFilterMuscleGroupItemFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        app:layoutManager="LinearLayoutManager"
+                        tools:context=".AdminFilterMuscleGroupItemFragment"
+                        tools:listitem="@layout/fragment_admin_filter_muscle_group_item" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/label_equipment_types"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/eq_list"
+                        android:name="com.remixtrainer.AdminFilterEquipmentTypeItemFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        app:layoutManager="LinearLayoutManager"
+                        tools:context=".AdminFilterEquipmentTypeItemFragment"
+                        tools:listitem="@layout/fragment_admin_filter_equipment_type_item" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/close_btn"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_gravity="top|start"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/label_close_btn"/>
+
+</RelativeLayout>

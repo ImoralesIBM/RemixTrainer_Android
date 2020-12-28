@@ -1,40 +1,33 @@
 package com.remixtrainer;
 
-import android.content.Context;
 import androidx.collection.ArrayMap;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import com.remixtrainer.SelectEquipmentItemFragment.OnListFragmentInteractionListener;
+public class AdminEditExerciseEquipmentItemRecyclerViewAdapter extends RecyclerView.Adapter<AdminEditExerciseEquipmentItemRecyclerViewAdapter.ViewHolder> {
 
-public class SelectEquipmentItemRecyclerViewAdapter extends RecyclerView.Adapter<SelectEquipmentItemRecyclerViewAdapter.ViewHolder> {
-
+    private final AdminEditExerciseViewModel mViewModel;
     private final ArrayMap<Integer, FitnessEquipment> mValues;
-    private final ArrayList<Boolean> mCheckboxesSelected;
 
-    private final OnListFragmentInteractionListener mListener;
-
-    public SelectEquipmentItemRecyclerViewAdapter(Map<Integer, FitnessEquipment> items, List<Boolean> checkboxList, OnListFragmentInteractionListener listener) {
+    public AdminEditExerciseEquipmentItemRecyclerViewAdapter(Map<Integer, FitnessEquipment> items, AdminEditExerciseViewModel aeevm)
+    {
         mValues = new ArrayMap<>(items.size());
         mValues.putAll(items);
 
-        mListener = listener;
-        mCheckboxesSelected = new ArrayList<>(checkboxList);
+        mViewModel = aeevm;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_select_equipment_item, parent, false);
+                .inflate(R.layout.fragment_admin_edit_exercise_equipment_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -43,15 +36,26 @@ public class SelectEquipmentItemRecyclerViewAdapter extends RecyclerView.Adapter
         holder.mIdEquipment = Integer.parseInt(mValues.keyAt(position).toString());
         holder.mCheckBoxView.setTag("equipment"+holder.mIdEquipment);
         holder.mContentView.setText(mValues.get(holder.mIdEquipment).description + " (" + mValues.get(holder.mIdEquipment).code + ")");
-        holder.mContentView.setContentDescription(mValues.get(holder.mIdEquipment).description);
 
-        if (mCheckboxesSelected.size() > position) {
-            holder.mCheckBoxView.setChecked(mCheckboxesSelected.get(position));
-        }
-
+        holder.mCheckBoxView.setChecked(mViewModel.getEquipmentTypeSelection(holder.mIdEquipment));
         holder.mCheckBoxView.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                // Send the event to the host activity
-                mListener.onEquipmentItemSelected(position, buttonView.isChecked());
+                mViewModel.setEquipmentTypeSelection(holder.mIdEquipment, buttonView.isChecked());
+            });
+
+        holder.mVideoLinkView.setText(mViewModel.getEquipmentVideo(holder.mIdEquipment));
+        holder.mVideoLinkView.setOnFocusChangeListener((v, hasFocus) -> {
+                if (!hasFocus) {
+                    String cleanLink = ((EditText) v).getText().toString().trim();
+                    if (cleanLink.contains("youtube.com/watch?v="))
+                    {
+                        cleanLink = cleanLink.split("youtube.com/watch?v=",2)[1];
+                    }
+                    if (cleanLink.contains("youtu.be/"))
+                    {
+                        cleanLink = cleanLink.split("youtu.be/",2)[1];
+                    }
+                    mViewModel.setEquipmentVideo(holder.mIdEquipment, cleanLink);
+                }
             });
     }
 
@@ -64,6 +68,7 @@ public class SelectEquipmentItemRecyclerViewAdapter extends RecyclerView.Adapter
         public final View mView;
         public final CheckBox mCheckBoxView;
         public final TextView mContentView;
+        public final EditText mVideoLinkView;
         public int mIdEquipment;
 
         public ViewHolder(View view) {
@@ -71,6 +76,7 @@ public class SelectEquipmentItemRecyclerViewAdapter extends RecyclerView.Adapter
             mView = view;
             mCheckBoxView = view.findViewById(R.id.checkBox);
             mContentView = view.findViewById(R.id.content);
+            mVideoLinkView = view.findViewById(R.id.video_link);
         }
 
         @Override

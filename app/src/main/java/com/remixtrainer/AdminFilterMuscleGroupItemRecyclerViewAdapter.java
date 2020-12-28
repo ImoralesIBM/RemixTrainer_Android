@@ -1,37 +1,40 @@
+
 package com.remixtrainer;
 
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.collection.ArrayMap;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.remixtrainer.SelectMuscleGroupItemFragment.OnListFragmentInteractionListener;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SelectMuscleGroupItemRecyclerViewAdapter extends RecyclerView.Adapter<SelectMuscleGroupItemRecyclerViewAdapter.ViewHolder> {
+public class AdminFilterMuscleGroupItemRecyclerViewAdapter extends RecyclerView.Adapter<AdminFilterMuscleGroupItemRecyclerViewAdapter.ViewHolder> {
 
     private final ArrayMap<Integer, String> mValues;
-    private final OnListFragmentInteractionListener mListener;
-    private final ArrayList<Boolean> mCheckboxesSelected;
+    private final AdminFilterMuscleGroupItemFragment.OnListFragmentInteractionListener mListener;
+    private final Map<Integer, Boolean> mCheckboxesSelected;
 
-    public SelectMuscleGroupItemRecyclerViewAdapter(Map<Integer, String> items, List<Boolean> checkboxList, OnListFragmentInteractionListener listener) {
+    public AdminFilterMuscleGroupItemRecyclerViewAdapter(Map<Integer, String> items,
+                                                         Map<Integer, Boolean> checkboxMap,
+                                                         AdminFilterMuscleGroupItemFragment.OnListFragmentInteractionListener listener) {
         mValues = new ArrayMap<>(items.size());
         mValues.putAll(items);
 
         mListener = listener;
-        mCheckboxesSelected = new ArrayList<>(checkboxList);
+        mCheckboxesSelected = new ArrayMap<>();
+        mCheckboxesSelected.putAll(checkboxMap);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_select_muscle_group_item, parent, false);
+                .inflate(R.layout.fragment_admin_filter_muscle_group_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -43,15 +46,15 @@ public class SelectMuscleGroupItemRecyclerViewAdapter extends RecyclerView.Adapt
         holder.mContentView.setContentDescription(mValues.get(holder.mIdGroup));
 
         if (mCheckboxesSelected.size() > position) {
-            holder.mCheckBoxView.setChecked(mCheckboxesSelected.get(position));
+            holder.mCheckBoxView.setChecked(mCheckboxesSelected.get(holder.mIdGroup));
         }
 
         holder.mCheckBoxView.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                // Send the event to the host activity
-                mListener.onMuscleGroupItemSelected(position, buttonView.isChecked());
-            });
+            // Send the event to the host activity
+            mListener.onMuscleGroupItemSelected(holder.mIdGroup, buttonView.isChecked());
+        });
     }
-
+    
     @Override
     public int getItemCount() {
         return mValues.size();

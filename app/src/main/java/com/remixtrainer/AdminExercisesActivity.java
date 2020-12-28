@@ -1,19 +1,45 @@
 package com.remixtrainer;
 
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static com.remixtrainer.RemixTrainerApplication.mDatabase;
+
 
 public class AdminExercisesActivity extends ToolbarActivityTemplate implements AdminExerciseEquipmentTypeViewItemFragment.OnListFragmentInteractionListener {
 
-    private AdminEditExerciseViewModel mViewModel;
-    Button mAddNewButton, mReturnButton;
+    private EditText mExerciseNameQuery;
+    private Button mSetFiltersButton, mClearFiltersButton;
+    private RecyclerView mExerciseList;
+    private Button mAddNewButton, mReturnButton;
+
+    private MutableLiveData<String> exerciseQuery = new MutableLiveData<>();
+    private MutableLiveData<Map<Integer, Boolean>> muscleGroupSelections =
+            new MutableLiveData<>();
+    private MutableLiveData<Map<Integer, Boolean>> equipmentTypeSelections =
+            new MutableLiveData<>();
+
+    // Tick counter that'll be incremented every time a filter value is changed
+    private MediatorLiveData<Integer> changeMonitor = new MediatorLiveData<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +49,91 @@ public class AdminExercisesActivity extends ToolbarActivityTemplate implements A
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mViewModel = ViewModelProviders.of(this).get(AdminEditExerciseViewModel.class);
+        mExerciseNameQuery = findViewById(R.id.exercise_name_query);
+        mExerciseNameQuery.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        AdminExerciseItemFragment fragment = new AdminExerciseItemFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.selected_exercise_list_placeholder, fragment);
-        ft.commit();
+            }
 
-        mAddNewButton = findViewById(R.id.add_button);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                exerciseQuery.setValue(s.toString());
+            }
+        });
+
+        onClearFilters();
+
+        changeMonitor.setValue(0);
+        changeMonitor.addSource(exerciseQuery, notUsed -> {
+                changeMonitor.setValue(changeMonitor.getValue()+1);
+            });
+        changeMonitor.addSource(muscleGroupSelections, notUsed -> {
+                changeMonitor.setValue(changeMonitor.getValue()+1);
+            });
+        changeMonitor.addSource(equipmentTypeSelections, new Observer<Map<Integer, Boolean>>() {
+            @Override
+            public void onChanged(Map<Integer, Boolean> map) {
+                changeMonitor.setValue(changeMonitor.getValue()+1);
+            }
+        });
+
+        mExerciseList = (RecyclerView) findViewById(R.id.selected_exercise_list);
+        changeMonitor.observe(this, notUsed -> {
+            mExerciseList.setAdapter(
+                    new AdminExerciseItemRecyclerViewAdapter(mDatabase.mExerciseTypeList
+                            .values().stream().filter(ex -> ex.getDescription().toLowerCase()
+                                    .contains(exerciseQuery.getValue().toLowerCase()))
+                            .filter(ex -> ex.getMuscleGroups().stream().filter(gr -> muscleGroupSelections.getValue().getOrDefault(gr, false)).count() > 0)
+                            .filter(ex -> ex.getEquipmentTypesOnly().stream().filter(eq -> equipmentTypeSelections.getValue().getOrDefault(eq, false)).count() > 0)
+                            .map(ex -> ex.getId())
+                            .collect(Collectors.toList()), new AdminExerciseEquipmentTypeViewItemFragment.OnListFragmentInteractionListener() {
+                                                                @Override
+                                                                public void onPlayVideo(String videoLink) {
+                                                                    onPlayVideo(videoLink);
+                                                                }
+                                                            }));
+        });
+
+        mSetFiltersButton = (Button) findViewById(R.id.set_filters_button);
+        mSetFiltersButton.setOnClickListener(v -> {
+            FragmentManager fm = getSupportFragmentManager();
+            AdminSetExerciseFiltersDialogFragment filterDialog =
+                    AdminSetExerciseFiltersDialogFragment
+                            .newInstance(muscleGroupSelections.getValue(),
+                                    equipmentTypeSelections.getValue(),
+                                    new AdminFilterMuscleGroupItemFragment.OnListFragmentInteractionListener() {
+                                        @Override
+                                        public void onMuscleGroupItemSelected(int itemId, boolean isChecked) {
+                                            Map<Integer, Boolean> tempMap = new ArrayMap<Integer, Boolean>();
+                                            tempMap.putAll(muscleGroupSelections.getValue());
+                                            tempMap.put(itemId, isChecked);
+                                            muscleGroupSelections.setValue(tempMap);
+                                        }
+                                    },
+                                    new AdminFilterEquipmentTypeItemFragment.OnListFragmentInteractionListener() {
+                                        @Override
+                                        public void onEquipmentTypeItemSelected(int itemId, boolean isChecked) {
+                                            Map<Integer, Boolean> tempMap = new ArrayMap<Integer, Boolean>();
+                                            tempMap.putAll(equipmentTypeSelections.getValue());
+                                            tempMap.put(itemId, isChecked);
+                                            equipmentTypeSelections.setValue(tempMap);
+                                        }
+                                    });
+            filterDialog.show(fm, "fragment_select_filters");
+        });
+
+        mClearFiltersButton = (Button) findViewById(R.id.clear_filters_button);
+        mClearFiltersButton.setOnClickListener(v -> {
+            onClearFilters();
+        });
+
+        mAddNewButton = (Button) findViewById(R.id.add_button);
         mAddNewButton.setOnClickListener(v -> {
                 FragmentManager fm = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
                 AdminEditExerciseDialogFragment editorDialog = AdminEditExerciseDialogFragment.newInstance(-1);
@@ -39,6 +142,14 @@ public class AdminExercisesActivity extends ToolbarActivityTemplate implements A
 
         mReturnButton = findViewById(R.id.return_button);
         mReturnButton.setOnClickListener(v -> { finish(); });
+    }
+
+    public void onClearFilters() {
+        mExerciseNameQuery.setText("");
+        muscleGroupSelections.setValue(mDatabase.mMuscleGroupList.keySet()
+                .stream().collect(Collectors.toMap(Function.identity(), notused -> true)));
+        equipmentTypeSelections.setValue(mDatabase.mEquipmentTypeList.keySet()
+                .stream().collect(Collectors.toMap(Function.identity(), notused -> true)));
     }
 
     public void onPlayVideo(String videoId) {

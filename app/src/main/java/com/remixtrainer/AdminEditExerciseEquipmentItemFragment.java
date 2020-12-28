@@ -1,31 +1,19 @@
 package com.remixtrainer;
 
-import android.app.Activity;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
+
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 
 /**
  * A fragment representing a list of Items.
  * <p/>
  */
-public class EditExerciseEquipmentItemFragment extends Fragment {
+public class AdminEditExerciseEquipmentItemFragment extends Fragment {
 
     private AdminEditExerciseViewModel mViewModel;
 
@@ -35,35 +23,16 @@ public class EditExerciseEquipmentItemFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public EditExerciseEquipmentItemFragment() {
+    public AdminEditExerciseEquipmentItemFragment() {
     }
 
-    public static EditExerciseEquipmentItemFragment newInstance() {
-        EditExerciseEquipmentItemFragment fragment = new EditExerciseEquipmentItemFragment();
-
-        return fragment;
+    public static AdminEditExerciseEquipmentItemFragment newInstance() {
+        return new AdminEditExerciseEquipmentItemFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_edit_exercise_equipment_item_list, container, false);
-
-        mViewModel = ViewModelProviders.of(getActivity()).get(AdminEditExerciseViewModel.class);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-
-            recyclerView.setAdapter(new EditExerciseEquipmentItemRecyclerViewAdapter(mDatabase.mEquipmentTypeList, mViewModel));
-        }
-        return view;
     }
 
     @Override

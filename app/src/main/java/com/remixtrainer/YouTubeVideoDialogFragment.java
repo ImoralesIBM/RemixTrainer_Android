@@ -59,7 +59,8 @@ public class YouTubeVideoDialogFragment extends DialogFragment implements YouTub
 
         youTubePlayerFragmentHandle = new YouTubePlayerSupportFragment();
         youTubePlayerFragmentHandle.initialize(v.getContext().getResources().getString(R.string.YouTubeAPI_Key), this);
-        getChildFragmentManager().beginTransaction().replace(R.id.youtube_player_placeholder, youTubePlayerFragmentHandle).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.youtube_player_placeholder,
+                youTubePlayerFragmentHandle).commit();
 
         return v;
     }

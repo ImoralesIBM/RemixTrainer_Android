@@ -2,14 +2,20 @@ package com.remixtrainer;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
+import static com.remixtrainer.RemixTrainerApplication.mDatabase;
+
 public class AdminMuscleGroupsActivity extends ToolbarActivityTemplate {
 
+    public RecyclerView mMuscleGroupList;
     public Button mAddNewButton, mReturnButton;
 
     @Override
@@ -20,10 +26,8 @@ public class AdminMuscleGroupsActivity extends ToolbarActivityTemplate {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        AdminMuscleGroupItemFragment fragment = new AdminMuscleGroupItemFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.selected_muscle_group_list_placeholder, fragment);
-        ft.commit();
+        mMuscleGroupList = findViewById(R.id.mg_list);
+        mMuscleGroupList.setAdapter(new AdminMuscleGroupItemRecyclerViewAdapter(new ArrayList<>(mDatabase.mMuscleGroupList.keySet())));
 
         mAddNewButton = findViewById(R.id.add_button);
         mAddNewButton.setOnClickListener(v -> {

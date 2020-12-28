@@ -2,11 +2,9 @@ package com.remixtrainer;
 
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
+
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
@@ -28,6 +25,7 @@ public class AdminEditExerciseDialogFragment extends DialogFragment {
     private AdminEditExerciseViewModel mViewModel;
 
     private ImageView mCloseButton;
+    private RecyclerView mMuscleGroupChecklist, mEquipmentTypeChecklist;
     private Button mSaveButton, mCancelButton;
     private EditText mExerciseName;
 
@@ -74,16 +72,6 @@ public class AdminEditExerciseDialogFragment extends DialogFragment {
         mViewModel = ViewModelProviders.of(getActivity()).get(AdminEditExerciseViewModel.class);
         mViewModel.setExerciseId(mIdExercise);
 
-        EditExerciseMuscleGroupItemFragment muscleGroupFragment = new EditExerciseMuscleGroupItemFragment();
-        FragmentTransaction ft_mg = getChildFragmentManager().beginTransaction();
-        ft_mg.replace(R.id.muscle_group_list_placeholder, muscleGroupFragment);
-        ft_mg.commit();
-
-        EditExerciseEquipmentItemFragment equipmentViewFragment = new EditExerciseEquipmentItemFragment();
-        FragmentTransaction ft_eq = getChildFragmentManager().beginTransaction();
-        ft_eq.replace(R.id.equipment_type_list_placeholder, equipmentViewFragment);
-        ft_eq.commit();
-
         return v;
     }
 
@@ -97,6 +85,16 @@ public class AdminEditExerciseDialogFragment extends DialogFragment {
         {
             mExerciseName.setText(mDatabase.mExerciseTypeList.get(mIdExercise).getDescription());
         }
+
+        mMuscleGroupChecklist = getDialog().findViewById(R.id.mg_list);
+        mMuscleGroupChecklist.setAdapter(
+                new AdminEditExerciseMuscleGroupItemRecyclerViewAdapter(mDatabase.mMuscleGroupList, mViewModel)
+        );
+
+        mEquipmentTypeChecklist = getDialog().findViewById(R.id.eq_list);
+        mEquipmentTypeChecklist.setAdapter(
+                new AdminEditExerciseEquipmentItemRecyclerViewAdapter(mDatabase.mEquipmentTypeList, mViewModel)
+        );
 
         mSaveButton = getDialog().findViewById(R.id.save_exercise_button);
         mSaveButton.setOnClickListener(v -> {

@@ -5,12 +5,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
+import static com.remixtrainer.RemixTrainerApplication.mDatabase;
+
 public class AdminEquipmentTypesActivity extends ToolbarActivityTemplate {
 
-    Button mAddNewButton, mReturnButton;
+    private RecyclerView mEquipmentTypeList;
+    private Button mAddNewButton, mReturnButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +27,10 @@ public class AdminEquipmentTypesActivity extends ToolbarActivityTemplate {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        AdminEquipmentItemFragment fragment = new AdminEquipmentItemFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.selected_equipment_type_list_placeholder, fragment);
-        ft.commit();
+        mEquipmentTypeList = findViewById(R.id.eq_list);
+        mEquipmentTypeList.setAdapter(new AdminEquipmentItemRecyclerViewAdapter(
+                        new ArrayList<>(mDatabase.mEquipmentTypeList.keySet())
+        ));
 
         mAddNewButton = findViewById(R.id.add_button);
         mAddNewButton.setOnClickListener(v -> {
