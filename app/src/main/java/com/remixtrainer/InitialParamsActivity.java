@@ -98,7 +98,10 @@ public class InitialParamsActivity extends ToolbarActivityTemplate {
 
         for (int i = 0; i < restValues.length; i++)
         {
-            restValues[i] = String.valueOf((i + getResources().getInteger(R.integer.rest_min)) * getResources().getInteger(R.integer.rest_step));
+            totalSecTmp = (i + getResources().getInteger(R.integer.rest_min)) * getResources().getInteger(R.integer.rest_step);
+            secTmp = totalSecTmp % 60;
+            minTmp = (totalSecTmp - secTmp) / 60;
+            restValues[i] = String.valueOf(100+minTmp).substring(1)+":"+String.valueOf(100+secTmp).substring(1);
         }
 
         mRestTime.setDisplayedValues(restValues);
@@ -127,13 +130,12 @@ public class InitialParamsActivity extends ToolbarActivityTemplate {
                 optionValues.putInt("numReps", mNumReps.getValue());
                 optionValues.putString("repTime", mTimeReps.getDisplayedValues()[mTimeReps.getValue() - 1]);
                 optionValues.putInt("numSets", mSets.getValue());
-                optionValues.putInt("restTime", mRestTime.getValue());
+                optionValues.putString("restTime", mRestTime.getDisplayedValues()[mRestTime.getValue() - 1]);
                 optionValues.putBoolean("useReps", mSwitchRepsTime.isChecked());
 
                 nextIntent.putExtras(optionValues);
 
                 startActivity(nextIntent);
-                finish();
             });
 
         mNextButton.setOnLongClickListener(v -> {
@@ -155,11 +157,10 @@ public class InitialParamsActivity extends ToolbarActivityTemplate {
                 optionValues.putInt("numReps", Integer.parseInt(defaultSettings.get("num_reps").toString()));
                 optionValues.putString("repTime", mTimeReps.getDisplayedValues()[Integer.parseInt(defaultSettings.get("time_reps").toString()) - 1]);
                 optionValues.putInt("numSets", Integer.parseInt(defaultSettings.get("num_sets").toString()));
-                optionValues.putInt("restTime", Integer.parseInt(defaultSettings.get("rest_time").toString()));
+                optionValues.putString("restTime", mRestTime.getDisplayedValues()[Integer.parseInt(defaultSettings.get("rest_time").toString()) - 1]);
                 optionValues.putBoolean("useReps", mSwitchRepsTime.isChecked());
 
-                muscleGroupListTmp = new ArrayList<>();
-                muscleGroupListTmp.addAll(mDatabase.mMuscleGroupList.keySet());
+                muscleGroupListTmp = new ArrayList<>(mDatabase.mMuscleGroupList.keySet());
                 Collections.shuffle(muscleGroupListTmp);
 
                 optionValues.putIntegerArrayList("equipmentTypes",
@@ -171,7 +172,6 @@ public class InitialParamsActivity extends ToolbarActivityTemplate {
                 nextIntent.putExtras(optionValues);
 
                 startActivity(nextIntent);
-                finish();
 
                 return true;
             });

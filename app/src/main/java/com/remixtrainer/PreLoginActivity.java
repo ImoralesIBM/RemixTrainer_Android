@@ -18,13 +18,11 @@ public class PreLoginActivity extends AppCompatActivity {
   {
     nextIntent = new Intent(PreLoginActivity.this, LoginActivity.class);
     startActivity(nextIntent);
-    finish();
   }
 
   public void onRegister(View v)
   {
     nextIntent = new Intent(PreLoginActivity.this, RegisterActivity.class);
     startActivity(nextIntent);
-    finish();
   }
 }

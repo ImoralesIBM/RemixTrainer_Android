@@ -32,11 +32,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/num_sets_label"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/spinner_label_padding_vert"
                     android:text="@string/label_num_sets" />
 
                 <NumberPicker
@@ -48,43 +50,50 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/switch_label"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/label_sets_switch" />
-                <TextView
-                    android:id="@+id/reps_label"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:text="@string/label_reps" />
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switch_reps_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal" />
-                <TextView
-                    android:id="@+id/time_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="end"
-                    android:text="@string/label_time" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/reps_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:text="@string/label_reps" />
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_reps_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:id="@+id/time_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        android:text="@string/label_time" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/reps_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
                 <TextView
                     android:id="@+id/num_reps_label"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/spinner_label_padding_vert"
                     android:text="@string/label_num_reps" />
 
                 <NumberPicker
@@ -98,19 +107,21 @@
                 android:id="@+id/reps_time_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
                 <TextView
                     android:id="@+id/num_reps_time_label"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/spinner_label_padding_vert"
                     android:text="@string/label_num_reptime" />
 
                 <NumberPicker
                     android:layout_width="wrap_content"
-                    android:id="@+id/time_reps"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:id="@+id/time_reps">
                 </NumberPicker>
             </LinearLayout>
 
@@ -118,11 +129,13 @@
                 android:id="@+id/time_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/rest_time_label"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/spinner_label_padding_vert"
                     android:text="@string/label_rest_time" />
 
                 <NumberPicker

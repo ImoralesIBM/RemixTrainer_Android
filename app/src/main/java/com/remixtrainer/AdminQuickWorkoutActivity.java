@@ -85,7 +85,10 @@ public class AdminQuickWorkoutActivity extends ToolbarActivityTemplate {
 
         for (int i = 0; i < restValues.length; i++)
         {
-            restValues[i] = String.valueOf((i + getResources().getInteger(R.integer.rest_min)) * getResources().getInteger(R.integer.rest_step));
+            totalSecTmp = (i + getResources().getInteger(R.integer.rest_min)) * getResources().getInteger(R.integer.rest_step);
+            secTmp = totalSecTmp % 60;
+            minTmp = (totalSecTmp - secTmp) / 60;
+            restValues[i] = String.valueOf(100+minTmp).substring(1)+":"+String.valueOf(100+secTmp).substring(1);
         }
 
         mRestTime.setDisplayedValues(restValues);

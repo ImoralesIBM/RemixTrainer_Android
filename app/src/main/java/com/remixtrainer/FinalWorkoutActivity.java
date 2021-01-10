@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class FinalWorkoutActivity extends ToolbarActivityTemplate implements FinalEquipmentTypeVideoItemFragment.OnListFragmentInteractionListener {
     private FinalWorkoutViewModel mViewModel;
     private TextView mRepString;
-    private Button mRegenerateButton;
+    private Button mRegenerateButton, mRestartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,19 @@ public class FinalWorkoutActivity extends ToolbarActivityTemplate implements Fin
 
                 finish();
             });
+
+        mRestartButton = findViewById(R.id.restart_workout_button);
+        mRestartButton.setOnClickListener(v -> {
+            boolean cancel = false;
+            View focusView = null;
+
+            Intent intent = new Intent(FinalWorkoutActivity.this, InitialParamsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+            finish();
+        });
+
     }
 
     public void onPlayVideo(String videoId) {
