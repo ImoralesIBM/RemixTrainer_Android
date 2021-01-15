@@ -50,7 +50,7 @@ public class PreliminaryWorkout extends ToolbarActivityTemplate {
             mRepString = inboundOptionValues.getString("repTime");
         }
         mRepString += ("; " + String.valueOf(inboundOptionValues.getInt("numSets")*getResources().getInteger(R.integer.sets_step)) + " sets");
-        mRepString += ("; " + inboundOptionValues.getString("restTime") + " rest");
+        mRepString += ("; " + inboundOptionValues.getString("restTime") + " sec rest");
 
         mViewModel.GenerateInitialWorkout();
 

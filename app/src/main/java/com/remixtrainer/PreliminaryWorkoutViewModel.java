@@ -18,7 +18,7 @@ public class PreliminaryWorkoutViewModel extends ViewModel {
     private MutableLiveData<ArrayList<ArrayList<Boolean>>> regenFlags = new MutableLiveData<>();
     private List<Integer> exercisesUsed;
 
-    private int ExercisesPerGroup = 3;
+    private final int ExercisesPerGroup = 3;
 
     public void setSelectedMuscleGroups(ArrayList<Integer> rawSelectionList)
     {
@@ -131,8 +131,9 @@ public class PreliminaryWorkoutViewModel extends ViewModel {
         for (int i = 0; i < selectedMuscleGroups.getValue().size(); i++)
         {
             tmpGroupExercises = tmpExercisesMasterList.get(i);
+            int currentGroupSize = tmpGroupExercises.size();
 
-            for (int j = ExercisesPerGroup-1; j >= 0; j--)
+            for (int j = currentGroupSize-1; j >= 0; j--)
             {
                 if (tmpRegenFlagList.get(i).get(j))
                 {
