@@ -6,53 +6,40 @@
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     android:orientation="vertical"
-    tools:context=".AdminEquipmentTypeDialogFragment">
+    tools:context=".SaveWorkoutDialogFragment">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_below="@id/close_btn"
-            android:layout_toEndOf="@id/close_btn">
+            android:layout_toEndOf="@id/close_btn"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:labelFor="@+id/equipment_type_name"
-                android:text="@string/label_equipment_type_name" />
+                android:text="@string/label_workout_name"
+                android:labelFor="@+id/workout_name"/>
 
             <EditText
-                android:id="@+id/equipment_type_name"
+                android:id="@+id/workout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:labelFor="@+id/equipment_type_code"
-                android:text="@string/label_equipment_type_code" />
-
-            <EditText
-                android:id="@+id/equipment_type_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="3"
-                android:inputType="textCapCharacters" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/save_equipment_type_button"
+                    android:id="@+id/save_workout_button"
                     style="?android:textAppearanceSmall"
                     android:background="@color/colorButtonBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/action_save_muscle_group" />
+                    android:text="@string/action_save_workout"/>
 
                 <Button
                     android:id="@+id/cancel_edit_button"
@@ -60,7 +47,7 @@
                     android:background="@color/colorButtonBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/action_cancel_edit_muscle_group" />
+                    android:text="@string/action_cancel_edit_workout"/>
             </LinearLayout>
         </LinearLayout>
 

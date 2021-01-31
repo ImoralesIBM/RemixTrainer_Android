@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class AdminFilterEquipmentTypeItemRecyclerViewAdapter extends RecyclerView.Adapter<AdminFilterEquipmentTypeItemRecyclerViewAdapter.ViewHolder> {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".FinalWorkoutActivity">
 
@@ -35,9 +36,16 @@
         android:layout_below="@id/rep_string"
         android:layout_above="@id/footer_controls">
 
-        <FrameLayout android:id="@+id/selected_muscle_group_list_placeholder"
+        <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/fragment_final_muscle_group_item"
+            tools:context=".FinalMuscleGroupItemFragment"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:name="com.remixtrainer.FinalMuscleGroupItemFragment"
+            android:id="@+id/final_muscle_group_list" />
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout

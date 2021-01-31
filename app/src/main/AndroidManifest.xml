@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".RetrieveSavedWorkoutActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_retrieve_saved_workout"
+            />
+        <activity
             android:name=".AdminQuickWorkoutActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_admin_quick_workout"

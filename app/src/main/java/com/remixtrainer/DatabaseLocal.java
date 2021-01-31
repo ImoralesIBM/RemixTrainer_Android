@@ -1,6 +1,5 @@
 package com.remixtrainer;
 
-import com.google.android.gms.common.util.JsonUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -8,15 +7,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -25,28 +22,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.util.ArrayMap;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 public class DatabaseLocal {
-    private FirebaseDatabase mDatabase;
+    private final FirebaseDatabase mDatabase;
 
     private String mUserId;
     private DatabaseLoadCompleteListener mLoadCompleteListener;
     private Boolean mMuscleGroupsReady, mEquipmentTypesReady, mExercisesReady, mConfigurationReady;
 
     private DatabaseReference mDatabaseUserRootRef;
-    private DatabaseReference mMuscleGroupListRootDefaultRef, mEquipmentTypeListRootDefaultRef, mExerciseTypeListRootDefaultRef;
-    private DatabaseReference mConfigurationRootDefaultRef;
+    private final DatabaseReference mMuscleGroupListRootDefaultRef;
+    private final DatabaseReference mEquipmentTypeListRootDefaultRef;
+    private final DatabaseReference mExerciseTypeListRootDefaultRef;
+    private final DatabaseReference mConfigurationRootDefaultRef;
 
     public Boolean mIsAdmin;
 
     public Map<String, Map<String, Object>> mConfigurationSettings = new ArrayMap<>();
 
-    public Map<Integer, String> mMuscleGroupList = new ArrayMap<>();
-    public Map<Integer, FitnessEquipment> mEquipmentTypeList = new ArrayMap<>();
+    public ArrayMap<Integer, String> mMuscleGroupList = new ArrayMap<>();
+    public ArrayMap<Integer, FitnessEquipment> mEquipmentTypeList = new ArrayMap<>();
     public Map<Integer, ExerciseSummary> mExerciseTypeList = new ArrayMap<>();
+    public Map<String, Workout> mSavedWorkoutList = new ArrayMap<>();
 
 
     public DatabaseLocal()
@@ -114,7 +110,7 @@ public class DatabaseLocal {
     private void retrieveData(String userId, Boolean isNewUser)
     {
         DatabaseReference adminFlag;
-        DatabaseReference muscleGroup, equipmentType, exerciseType, configSettings;
+        DatabaseReference muscleGroup, equipmentType, exerciseType, configSettings, savedWorkouts;
 
         mDatabaseUserRootRef = mDatabase.getReference("user_data").child(userId);
         mDatabaseUserRootRef.keepSynced(true);
@@ -135,6 +131,7 @@ public class DatabaseLocal {
             exerciseType = mDatabaseUserRootRef.child("exercise_types");
             configSettings = mDatabaseUserRootRef.child("configuration");
         }
+        savedWorkouts = mDatabaseUserRootRef.child("workouts");
 
         adminFlag.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -288,7 +285,7 @@ public class DatabaseLocal {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -347,11 +344,72 @@ public class DatabaseLocal {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
+        savedWorkouts.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot uniqueKeySnapshot : snapshot.getChildren())
+                {
+                    addSavedWorkout(uniqueKeySnapshot.getKey(),
+                            uniqueKeySnapshot.child("name").getValue().toString(),
+                            StreamSupport.stream(uniqueKeySnapshot.child("muscle_groups").getChildren().spliterator(), false)
+                                    .map(i -> Integer.parseInt(i.getValue().toString()))
+                                    .collect(Collectors.toList()),
+                            StreamSupport.stream(uniqueKeySnapshot.child("equipment_types").getChildren().spliterator(), false)
+                                    .map(i -> Integer.parseInt(i.getValue().toString()))
+                                    .collect(Collectors.toList()),
+                            StreamSupport.stream(uniqueKeySnapshot.child("exercises").getChildren().spliterator(), false)
+                                    .map(i -> StreamSupport.stream(i.getChildren().spliterator(), false)
+                                            .map(j -> Integer.parseInt(j.getValue().toString())).collect(Collectors.toList()))
+                                    .collect(Collectors.toList()),
+                            Integer.parseInt(uniqueKeySnapshot.child("num_reps").getValue().toString()),
+                            Integer.parseInt(uniqueKeySnapshot.child("rep_time_index").getValue().toString()),
+                            Integer.parseInt(uniqueKeySnapshot.child("num_sets").getValue().toString()),
+                            Integer.parseInt(uniqueKeySnapshot.child("rest_time_index").getValue().toString()),
+                            Boolean.parseBoolean(uniqueKeySnapshot.child("use_reps").getValue().toString()),
+                            Long.parseLong(uniqueKeySnapshot.child("created").getValue().toString()),
+                            Long.parseLong(uniqueKeySnapshot.child("updated").getValue().toString()),
+                            Long.parseLong(uniqueKeySnapshot.child("accessed").getValue().toString())
+                    );
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        savedWorkouts.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                mSavedWorkoutList.remove(snapshot.getKey());
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public Boolean allListsReady()
@@ -379,6 +437,19 @@ public class DatabaseLocal {
         mConfigurationSettings.put(configKey, configValues);
     }
 
+    public void addSavedWorkout(String workoutKey, String name,
+                                List<Integer> muscleGroupList, List<Integer> equipmentTypeList,
+                                List<List<Integer>> exerciseList,
+                                Integer numReps, Integer repTimeIndex, Integer numSets,
+                                Integer restTimeIndex, Boolean useReps,
+                                Long created, Long updated, Long accessed)
+    {
+        mSavedWorkoutList.put(workoutKey,
+                new Workout(name, mUserId,
+                            muscleGroupList, equipmentTypeList, exerciseList,
+                            numReps, repTimeIndex, numSets, restTimeIndex, useReps,
+                            created, updated, accessed));
+    }
 
 
     /*** DATABASE CONTROLS ***/
@@ -621,5 +692,74 @@ public class DatabaseLocal {
                     }
                 });
     }
+
+    // Saved workouts
+
+    public String saveNewWorkoutToDB(String name,
+                       List<Integer> muscleGroupList,
+                       List<Integer> equipmentList,
+                       List<ArrayList<Integer>> exerciseList,
+                       Integer numReps,
+                       Integer repTime,
+                       Integer numSets,
+                       Integer restTime,
+                       Boolean useReps) {
+        String newWorkoutKey = mDatabaseUserRootRef.child("workouts").push().getKey();
+
+        Map<String, Object> newWorkout = new ArrayMap<>();
+        newWorkout.put("name", name);
+        newWorkout.put("muscle_groups", muscleGroupList);
+        newWorkout.put("equipment_types", equipmentList);
+        newWorkout.put("exercises", exerciseList);
+        newWorkout.put("num_reps", numReps);
+        newWorkout.put("rep_time_index", repTime);
+        newWorkout.put("num_sets", numSets);
+        newWorkout.put("rest_time_index", restTime);
+        newWorkout.put("use_reps", useReps);
+        newWorkout.put("created", new Date());
+        newWorkout.put("updated", new Date());
+        newWorkout.put("accessed", new Date());
+
+        mDatabaseUserRootRef.child("workouts/"+newWorkoutKey).updateChildren(newWorkout);
+
+        return newWorkoutKey;
+    }
+
+    public void accessWorkoutInDB(String key) {
+        mDatabaseUserRootRef.child("workouts/"+key+"/accessed").setValue(new Date());
+    }
+
+    public void updateWorkoutInDB(String key,
+                                  String name,
+                                  List<Integer> muscleGroupList,
+                                  List<Integer> equipmentList,
+                                  List<ArrayList<Integer>> exerciseList,
+                                  Integer numReps,
+                                  Integer repTime,
+                                  Integer numSets,
+                                  Integer restTime,
+                                  Boolean useReps) {
+        Map<String, Object> newWorkout = new ArrayMap<>();
+        newWorkout.put("name", name);
+        newWorkout.put("muscle_groups", muscleGroupList);
+        newWorkout.put("equipment_types", equipmentList);
+        newWorkout.put("exercises", exerciseList);
+        newWorkout.put("num_reps", numReps);
+        newWorkout.put("rep_time_index", repTime);
+        newWorkout.put("num_sets", numSets);
+        newWorkout.put("rest_time_index", restTime);
+        newWorkout.put("use_reps", useReps);
+        newWorkout.put("created", mSavedWorkoutList.get(key).getTimeCreated());
+        newWorkout.put("updated", new Date());
+        newWorkout.put("accessed", new Date());
+
+        mDatabaseUserRootRef.child("workouts/"+key).updateChildren(newWorkout);
+    }
+
+    public void deleteWorkoutFromDB(String workoutKey)
+    {
+        mDatabaseUserRootRef.child("workouts").child(workoutKey).removeValue();
+    }
+
 
 }

@@ -1,24 +1,17 @@
 package com.remixtrainer;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class YouTubeVideoDialogFragment extends DialogFragment implements YouTubePlayer.OnInitializedListener
@@ -97,11 +90,6 @@ public class YouTubeVideoDialogFragment extends DialogFragment implements YouTub
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
 }

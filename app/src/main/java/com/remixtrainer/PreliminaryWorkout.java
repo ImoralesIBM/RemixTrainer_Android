@@ -1,27 +1,28 @@
 package com.remixtrainer;
 
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.remixtrainer.DatabaseLocal;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class PreliminaryWorkout extends ToolbarActivityTemplate {
 
     private Button mBackButton, mRemixButton, mNextButton;
     private ImageButton mSelAllButton, mDiscAllButton, mInvertButton;
     private PreliminaryWorkoutViewModel mViewModel;
+    private Integer mNumReps, mRepTimeIndex, mNumSets, mRestTimeIndex;
+    private Boolean mUseReps;
     private String mRepString;
+    private RecyclerView mMuscleGroupList;
+
+    private String mWorkoutKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,25 +32,41 @@ public class PreliminaryWorkout extends ToolbarActivityTemplate {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        PreliminaryMuscleGroupItemFragment fragment = new PreliminaryMuscleGroupItemFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.preliminary_muscle_group_list_placeholder, fragment);
-        ft.commit();
-
         Bundle inboundOptionValues = getIntent().getExtras();
 
         mViewModel = ViewModelProviders.of(this).get(PreliminaryWorkoutViewModel.class);
         mViewModel.setSelectedEquipmentTypes(inboundOptionValues.getIntegerArrayList("equipmentTypes"));
         mViewModel.setSelectedMuscleGroups(inboundOptionValues.getIntegerArrayList("muscleGroups"));
 
+        mNumReps = inboundOptionValues.getInt("numReps");
+        mRepTimeIndex = inboundOptionValues.getInt("repTimeIndex");
+        mNumSets = inboundOptionValues.getInt("numSets");
+        mRestTimeIndex = inboundOptionValues.getInt("restTimeIndex");
+        mUseReps = inboundOptionValues.getBoolean("useReps");
+
+        if (inboundOptionValues.containsKey("workoutKey")) {
+            mWorkoutKey = inboundOptionValues.getString("workoutKey");
+        }
+
+        mMuscleGroupList = (RecyclerView) findViewById(R.id.preliminary_muscle_group_list);
+        mMuscleGroupList.setAdapter(new PreliminaryMuscleGroupItemRecyclerViewAdapter(mViewModel.getSelectedMuscleGroups().getValue(),
+                mViewModel.getAllExercises().getValue(),
+                mViewModel.getAllRegenFlags().getValue(), mViewModel));
+        mViewModel.getAllExercises().observe(this, exList -> {
+            mMuscleGroupList.setAdapter(new PreliminaryMuscleGroupItemRecyclerViewAdapter(mViewModel.getSelectedMuscleGroups().getValue(), exList, mViewModel.getAllRegenFlags().getValue(), mViewModel));
+        });
+        mViewModel.getAllRegenFlags().observe(this, flagList -> {
+            mMuscleGroupList.setAdapter(new PreliminaryMuscleGroupItemRecyclerViewAdapter(mViewModel.getSelectedMuscleGroups().getValue(), mViewModel.getAllExercises().getValue(), flagList, mViewModel));
+        });
+
         if (!inboundOptionValues.getBoolean("useReps"))
         {
-            mRepString = String.valueOf(inboundOptionValues.getInt("numReps")) + " reps";
+            mRepString = inboundOptionValues.getInt("numReps") + " reps";
         }
         else {
             mRepString = inboundOptionValues.getString("repTime");
         }
-        mRepString += ("; " + String.valueOf(inboundOptionValues.getInt("numSets")*getResources().getInteger(R.integer.sets_step)) + " sets");
+        mRepString += ("; " + inboundOptionValues.getInt("numSets") * getResources().getInteger(R.integer.sets_step) + " sets");
         mRepString += ("; " + inboundOptionValues.getString("restTime") + " sec rest");
 
         mViewModel.GenerateInitialWorkout();
@@ -88,21 +105,33 @@ public class PreliminaryWorkout extends ToolbarActivityTemplate {
                 finalExercises = new ArrayList<>(mViewModel.getAllExercises().getValue());
 
 
-                Bundle optionValues = new Bundle();
+                Bundle outgoingOptionValues = new Bundle();
                 Intent nextIntent = new Intent(PreliminaryWorkout.this, FinalWorkoutActivity.class);
 
-                optionValues.putString("repString", mRepString);
-                optionValues.putIntegerArrayList("muscleGroups", mViewModel.getSelectedMuscleGroups().getValue());
-                optionValues.putIntegerArrayList("equipmentTypes", mViewModel.getSelectedEquipmentTypes().getValue());
+                if (mWorkoutKey.length() > 0) {
+                    outgoingOptionValues.putString("workoutKey", mWorkoutKey);
+                }
+                outgoingOptionValues.putInt("numReps", mNumReps);
+                outgoingOptionValues.putInt("repTimeIndex", mRepTimeIndex);
+                outgoingOptionValues.putInt("numSets", mNumSets);
+                outgoingOptionValues.putInt("restTimeIndex", mRestTimeIndex);
+                outgoingOptionValues.putBoolean("useReps", mUseReps);
+                outgoingOptionValues.putString("repString", mRepString);
+                outgoingOptionValues.putIntegerArrayList("muscleGroups", mViewModel.getSelectedMuscleGroups().getValue());
+                outgoingOptionValues.putIntegerArrayList("equipmentTypes", mViewModel.getSelectedEquipmentTypes().getValue());
 
                 for (int i = 0; i < finalExercises.size(); i++)
                 {
-                    optionValues.putIntegerArrayList("exerciseList"+Integer.toString(i), finalExercises.get(i) );
+                    outgoingOptionValues.putIntegerArrayList("exerciseList"+ i, finalExercises.get(i) );
                 }
 
-                nextIntent.putExtras(optionValues);
+                nextIntent.putExtras(outgoingOptionValues);
 
                 startActivity(nextIntent);
             });
+
+        if (mWorkoutKey.length() > 0) {
+            mNextButton.callOnClick();
+        }
     }
 }

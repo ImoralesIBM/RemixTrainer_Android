@@ -13,9 +13,9 @@ import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 public class AdminEditExerciseViewModel extends ViewModel {
 
     private Integer mIdExercise;
-    private ArrayMap<Integer, Boolean> mMuscleGroupsSelected = new ArrayMap<>();
-    private ArrayMap<Integer, Boolean> mEquipmentTypesSelected = new ArrayMap<>();
-    private ArrayMap<Integer, String> mEquipmentVideoList = new ArrayMap<>();
+    private final ArrayMap<Integer, Boolean> mMuscleGroupsSelected = new ArrayMap<>();
+    private final ArrayMap<Integer, Boolean> mEquipmentTypesSelected = new ArrayMap<>();
+    private final ArrayMap<Integer, String> mEquipmentVideoList = new ArrayMap<>();
 
     public void setExerciseId(Integer idExercise)
     {

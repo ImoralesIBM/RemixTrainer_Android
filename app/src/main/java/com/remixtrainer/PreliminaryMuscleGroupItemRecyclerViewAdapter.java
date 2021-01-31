@@ -1,16 +1,10 @@
 package com.remixtrainer;
 
-import androidx.lifecycle.ViewModelProviders;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.remixtrainer.PreliminaryExerciseItemRecyclerViewAdapter;
-import com.remixtrainer.PreliminaryMuscleGroupItemFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +16,17 @@ public class PreliminaryMuscleGroupItemRecyclerViewAdapter extends RecyclerView.
     private final List<Integer> mParentValues;
     private final List<ArrayList<Integer>> mChildValues;
     private final List<ArrayList<Boolean>> mRegenFlags;
-    private final OnListFragmentInteractionListener mListener;
-    private PreliminaryWorkoutViewModel mViewModel;
+    private final PreliminaryWorkoutViewModel mViewModel;
 
     private List<ArrayList<Boolean>> mUpdatedRegenFlags;
 
-    public PreliminaryMuscleGroupItemRecyclerViewAdapter(List<Integer> parentItems, List<ArrayList<Integer>> childItems, List<ArrayList<Boolean>> regenFlagItems, OnListFragmentInteractionListener listener, PreliminaryWorkoutViewModel pwvm) {
+    public PreliminaryMuscleGroupItemRecyclerViewAdapter(List<Integer> parentItems,
+                                                         List<ArrayList<Integer>> childItems,
+                                                         List<ArrayList<Boolean>> regenFlagItems,
+                                                         PreliminaryWorkoutViewModel pwvm) {
         mParentValues = parentItems;
         mChildValues = childItems;
         mRegenFlags = regenFlagItems;
-        mListener = listener;
         mViewModel = pwvm;
     }
 

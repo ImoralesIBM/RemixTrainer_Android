@@ -1,7 +1,6 @@
 package com.remixtrainer;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;

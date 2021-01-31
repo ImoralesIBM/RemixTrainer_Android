@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".PreliminaryWorkout">
 
@@ -65,11 +67,17 @@
         android:layout_below="@id/selection_controls"
         android:layout_above="@id/footer_controls">
 
-        <FrameLayout android:id="@+id/preliminary_muscle_group_list_placeholder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </androidx.core.widget.NestedScrollView>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/preliminary_muscle_group_list"
+            android:name="com.remixtrainer.PreliminaryMuscleGroupItemFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:context=".PreliminaryMuscleGroupItemFragment"
+            tools:listitem="@layout/fragment_preliminary_muscle_group_item" />
+        </androidx.core.widget.NestedScrollView>
     <LinearLayout
         android:id="@+id/footer_controls"
         android:layout_alignParentBottom="true"

@@ -3,7 +3,6 @@ package com.remixtrainer;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,10 +11,10 @@ import java.util.stream.Collectors;
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 public class PreliminaryWorkoutViewModel extends ViewModel {
-    private MutableLiveData<ArrayList<Integer>> selectedMuscleGroups = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<Integer>> selectedEquipmentTypes = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<ArrayList<Integer>>> selectedExercises = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<ArrayList<Boolean>>> regenFlags = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Integer>> selectedMuscleGroups = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Integer>> selectedEquipmentTypes = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<ArrayList<Integer>>> selectedExercises = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<ArrayList<Boolean>>> regenFlags = new MutableLiveData<>();
     private List<Integer> exercisesUsed;
 
     private final int ExercisesPerGroup = 3;
@@ -171,16 +170,15 @@ public class PreliminaryWorkoutViewModel extends ViewModel {
     {
         ArrayList<Integer> exListTmp;
 
-        exListTmp = new ArrayList<Integer>();
-        exListTmp.addAll(mDatabase.mExerciseTypeList.values().stream()
-                .filter(i -> ((i.getMuscleGroups().contains(muscleGroup)
-                        && (!Collections.disjoint(selectedEquipmentTypes.getValue(), i.getEquipmentTypesOnly()))
-                        && !exercisesUsed.contains(i.getId()))))
-                .map(ExerciseSummary::getId).collect(Collectors.toList()));
+        exListTmp = new ArrayList<>((mDatabase.mExerciseTypeList.values().stream()
+                                                    .filter(i -> ((i.getMuscleGroups().contains(muscleGroup)
+                                                            && (!Collections.disjoint(selectedEquipmentTypes.getValue(), i.getEquipmentTypesOnly()))
+                                                            && !exercisesUsed.contains(i.getId()))))
+                                                    .map(ExerciseSummary::getId).collect(Collectors.toList())));
         Collections.shuffle(exListTmp);
         if (exListTmp.size() > exPerGroup) {exListTmp.subList(exPerGroup, exListTmp.size()).clear();}
 
-        exercisesUsed.addAll(exListTmp.stream().collect(Collectors.toCollection(ArrayList::new)));
+        exercisesUsed.addAll(new ArrayList<>(exListTmp.stream().collect(Collectors.toCollection(ArrayList::new))));
 
         return exListTmp;
     }

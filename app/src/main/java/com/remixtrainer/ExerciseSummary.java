@@ -2,7 +2,6 @@ package com.remixtrainer;
 
 import android.util.ArrayMap;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +10,11 @@ import java.util.stream.Collectors;
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 public class ExerciseSummary {
-    private int mExerciseId;
-    private String mExerciseDescription;
-    private String mExerciseVideoLink;
-    private ArrayList<Integer> mMuscleGroupList;
-    private ArrayMap<Integer, String> mEquipmentTypeList;
+    private final int mExerciseId;
+    private final String mExerciseDescription;
+    private final String mExerciseVideoLink;
+    private final ArrayList<Integer> mMuscleGroupList;
+    private final ArrayMap<Integer, String> mEquipmentTypeList;
 
     public ExerciseSummary()
     {
@@ -132,7 +131,7 @@ public class ExerciseSummary {
 
     public ArrayList<Integer> getEquipmentTypesOnly()
     {
-        return mEquipmentTypeList.keySet().stream().collect(Collectors.toCollection(ArrayList::new));
+        return new ArrayList<>(mEquipmentTypeList.keySet());
     }
 
     public ArrayMap<Integer, String> getEquipmentAndVideos()

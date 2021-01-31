@@ -8,14 +8,11 @@
     android:orientation="vertical"
     tools:context=".AdminMuscleGroupDialogFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/close_btn"
-        android:layout_toEndOf="@id/close_btn">
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/close_btn"
+            android:layout_toEndOf="@id/close_btn"
             android:orientation="vertical">
 
             <TextView
@@ -53,7 +50,6 @@
                     android:text="@string/action_cancel_edit_muscle_group"/>
             </LinearLayout>
         </LinearLayout>
-    </FrameLayout>
 
     <ImageView
         android:layout_height="wrap_content"

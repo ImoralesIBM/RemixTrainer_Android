@@ -3,18 +3,13 @@ package com.remixtrainer;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.Drawable;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.remixtrainer.AdminExerciseMuscleGroupViewItemFragment.OnListFragmentInteractionListener;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;

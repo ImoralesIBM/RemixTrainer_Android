@@ -16,7 +16,6 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.remixtrainer.AdminExerciseEquipmentTypeViewItemFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;

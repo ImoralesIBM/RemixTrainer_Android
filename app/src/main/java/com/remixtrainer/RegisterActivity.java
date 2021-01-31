@@ -4,31 +4,21 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
@@ -70,12 +60,8 @@ public class RegisterActivity extends AppCompatActivity
 
         mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL)
-                {
-                    return true;
-                }
-                return false;
-            });
+            return id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL;
+        });
 
         mRegisterButton = findViewById(R.id.email_register_button);
         mRegisterButton.setOnClickListener(v -> { attemptRegistration(); });

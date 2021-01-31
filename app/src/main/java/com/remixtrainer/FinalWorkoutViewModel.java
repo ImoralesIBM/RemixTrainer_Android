@@ -2,16 +2,14 @@ package com.remixtrainer;
 
 import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class FinalWorkoutViewModel extends ViewModel {
     private ArrayList<Integer> selectedMuscleGroups = new ArrayList<>();
     private ArrayList<Integer> selectedEquipmentTypes = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> selectedExercises = new ArrayList<>();
+    private String workoutKey = "";
 
-    private int ExercisesPerGroup = 3;
+    private final int ExercisesPerGroup = 3;
 
     public void setSelectedMuscleGroups(ArrayList<Integer> rawSelectionList)
     {
@@ -47,5 +45,13 @@ public class FinalWorkoutViewModel extends ViewModel {
     public void setExercises(ArrayList<ArrayList<Integer>> exerciseListNested)
     {
         selectedExercises = new ArrayList<>(exerciseListNested);
+    }
+
+    public String getWorkoutKey() {
+        return workoutKey;
+    }
+
+    public void setWorkoutKey(String newKey) {
+        workoutKey = newKey;
     }
 }

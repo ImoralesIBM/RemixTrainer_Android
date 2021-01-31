@@ -19,4 +19,6 @@
   <integer name="rest_max">24</integer>
   <integer name="rest_default">12</integer>
   <integer name="rest_step">5</integer>
+
+  <integer name="max_workouts">5</integer>
 </resources>

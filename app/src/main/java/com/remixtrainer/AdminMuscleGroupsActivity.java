@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ public class AdminMuscleGroupsActivity extends ToolbarActivityTemplate {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.mAdminScreen = true;
         setContentView(R.layout.activity_admin_muscle_group);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

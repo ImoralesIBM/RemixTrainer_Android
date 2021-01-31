@@ -3,7 +3,6 @@ package com.remixtrainer;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
@@ -13,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -32,18 +29,19 @@ public class AdminExercisesActivity extends ToolbarActivityTemplate implements A
     private RecyclerView mExerciseList;
     private Button mAddNewButton, mReturnButton;
 
-    private MutableLiveData<String> exerciseQuery = new MutableLiveData<>();
-    private MutableLiveData<Map<Integer, Boolean>> muscleGroupSelections =
+    private final MutableLiveData<String> exerciseQuery = new MutableLiveData<>();
+    private final MutableLiveData<Map<Integer, Boolean>> muscleGroupSelections =
             new MutableLiveData<>();
-    private MutableLiveData<Map<Integer, Boolean>> equipmentTypeSelections =
+    private final MutableLiveData<Map<Integer, Boolean>> equipmentTypeSelections =
             new MutableLiveData<>();
 
     // Tick counter that'll be incremented every time a filter value is changed
-    private MediatorLiveData<Integer> changeMonitor = new MediatorLiveData<>();
+    private final MediatorLiveData<Integer> changeMonitor = new MediatorLiveData<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.mAdminScreen = true;
         setContentView(R.layout.activity_admin_exercises);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -89,8 +87,8 @@ public class AdminExercisesActivity extends ToolbarActivityTemplate implements A
                     new AdminExerciseItemRecyclerViewAdapter(mDatabase.mExerciseTypeList
                             .values().stream().filter(ex -> ex.getDescription().toLowerCase()
                                     .contains(exerciseQuery.getValue().toLowerCase()))
-                            .filter(ex -> ex.getMuscleGroups().stream().filter(gr -> muscleGroupSelections.getValue().getOrDefault(gr, false)).count() > 0)
-                            .filter(ex -> ex.getEquipmentTypesOnly().stream().filter(eq -> equipmentTypeSelections.getValue().getOrDefault(eq, false)).count() > 0)
+                            .filter(ex -> ex.getMuscleGroups().stream().anyMatch(gr -> muscleGroupSelections.getValue().getOrDefault(gr, false)))
+                            .filter(ex -> ex.getEquipmentTypesOnly().stream().anyMatch(eq -> equipmentTypeSelections.getValue().getOrDefault(eq, false)))
                             .map(ex -> ex.getId())
                             .collect(Collectors.toList()), new AdminExerciseEquipmentTypeViewItemFragment.OnListFragmentInteractionListener() {
                                                                 @Override
@@ -110,7 +108,7 @@ public class AdminExercisesActivity extends ToolbarActivityTemplate implements A
                                     new AdminFilterMuscleGroupItemFragment.OnListFragmentInteractionListener() {
                                         @Override
                                         public void onMuscleGroupItemSelected(int itemId, boolean isChecked) {
-                                            Map<Integer, Boolean> tempMap = new ArrayMap<Integer, Boolean>();
+                                            Map<Integer, Boolean> tempMap = new ArrayMap<>();
                                             tempMap.putAll(muscleGroupSelections.getValue());
                                             tempMap.put(itemId, isChecked);
                                             muscleGroupSelections.setValue(tempMap);
@@ -119,7 +117,7 @@ public class AdminExercisesActivity extends ToolbarActivityTemplate implements A
                                     new AdminFilterEquipmentTypeItemFragment.OnListFragmentInteractionListener() {
                                         @Override
                                         public void onEquipmentTypeItemSelected(int itemId, boolean isChecked) {
-                                            Map<Integer, Boolean> tempMap = new ArrayMap<Integer, Boolean>();
+                                            Map<Integer, Boolean> tempMap = new ArrayMap<>();
                                             tempMap.putAll(equipmentTypeSelections.getValue());
                                             tempMap.put(itemId, isChecked);
                                             equipmentTypeSelections.setValue(tempMap);

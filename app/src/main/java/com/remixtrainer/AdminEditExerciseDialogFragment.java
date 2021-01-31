@@ -159,6 +159,7 @@ public class AdminEditExerciseDialogFragment extends DialogFragment {
 
                     dismiss();
                 }
+                focusView.requestFocus();
             });
 
         mCancelButton = getDialog().findViewById(R.id.cancel_edit_button);

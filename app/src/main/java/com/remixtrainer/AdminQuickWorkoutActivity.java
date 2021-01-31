@@ -2,19 +2,11 @@ package com.remixtrainer;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.ArrayMap;
-import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.Switch;
 
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
@@ -25,11 +17,12 @@ public class AdminQuickWorkoutActivity extends ToolbarActivityTemplate {
     private Button mSaveButton, mCancelButton;
     private NumberPicker mNumReps, mSets, mRestTime, mTimeReps;
 
-    private ArrayMap<String, Object> mDefaultSettings = new ArrayMap<>();
+    private final ArrayMap<String, Object> mDefaultSettings = new ArrayMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.mAdminScreen = true;
         setContentView(R.layout.activity_admin_quick_workout);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

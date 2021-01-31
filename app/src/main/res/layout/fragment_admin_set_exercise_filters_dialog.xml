@@ -20,10 +20,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -67,7 +63,6 @@
                         tools:context=".AdminFilterEquipmentTypeItemFragment"
                         tools:listitem="@layout/fragment_admin_filter_equipment_type_item" />
                 </LinearLayout>
-            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </FrameLayout>
 

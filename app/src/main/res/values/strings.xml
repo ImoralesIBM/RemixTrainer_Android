@@ -22,12 +22,13 @@
     <string name="exercise_name_required">Exercise name is required.</string>
     <string name="muscle_groups_required">Please select at least one muscle group.</string>
     <string name="fitness_equipment_required">Please select at least one type of fitness equipment.</string>
-
+    <string name="workout_name_required">Workout name is required.</string>
 
     <string name="muscle_group_name_duplicate">Muscle group name already in use.</string>
     <string name="equipment_name_duplicate">Fitness equipment name already in use.</string>
     <string name="equipment_code_duplicate">Fitness equipment code already in use.</string>
     <string name="exercise_name_duplicate">Exercise name already in use.</string>
+    <string name="workout_name_duplicate">Workout name already in use.</string>
 
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."
     </string>
@@ -45,12 +46,16 @@
     <string name="label_muscle_group_name">Muscle Group Name</string>
     <string name="label_equipment_type_name">Equipment Type Name</string>
     <string name="label_equipment_type_code">Equipment Type Code</string>
+    <string name="label_workout_name">Workout Name</string>
 
     <string name="label_edit_muscle_group_button">Edit</string>
     <string name="label_delete_muscle_group_button">Delete</string>
 
     <string name="label_edit_equipment_type_button">Edit</string>
     <string name="label_delete_equipment_type_button">Delete</string>
+
+    <string name="label_select_workout_button">Select</string>
+    <string name="label_delete_workout_button">Delete</string>
 
     <string name="label_num_sets">Number of Sets</string>
     <string name="label_sets_switch">Sets in:</string>
@@ -63,6 +68,11 @@
 
     <string name="label_search_by_name">Search by Name</string>
 
+    <string name="label_workout_accessed">Last Accessed:</string>
+    <string name="label_workout_created">Created:</string>
+    <string name="label_workout_updated">Last Updated:</string>
+
+
     <string name="status_recovery_email_sent">We have sent you instructions to reset your password!</string>
 
     <string name="prompt_first_name">First Name</string>
@@ -74,6 +84,7 @@
 
     <string name="action_register">Register</string>
     <string name="action_admin">Administration</string>
+    <string name="action_retrieve_workout">Retrieve Saved Workout</string>
     <string name="action_logout">Logout</string>
 
     <string name="action_forgot_password">Forgot Password</string>
@@ -113,6 +124,11 @@
     <string name="action_save_quick_workout">Save</string>
     <string name="action_cancel_edit_quick_workout">Cancel</string>
 
+    <string name="action_save_workout">Save</string>
+    <string name="action_cancel_edit_workout">Cancel</string>
+
+    <string name="action_cancel_select_workout">Cancel</string>
+
     <string name="action_revert_user_data">Revert to Defaults</string>
 
     <string name="label_choose_muscle_group">Choose Muscle Group</string>
@@ -138,6 +154,7 @@
     <string name="title_activity_admin_equipment_types">Administration: Equipment Types</string>
     <string name="title_activity_admin_exercises">Administration: Exercises</string>
     <string name="title_activity_admin_quick_workout">Administration: Quick Workout</string>
+    <string name="title_activity_retrieve_saved_workout">Retrieve Saved Workout</string>
 
     <string name="label_close_btn">Close</string>
 

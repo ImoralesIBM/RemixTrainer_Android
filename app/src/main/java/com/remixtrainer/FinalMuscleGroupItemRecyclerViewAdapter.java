@@ -1,9 +1,6 @@
 package com.remixtrainer;
 
-import android.app.Activity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +18,7 @@ public class FinalMuscleGroupItemRecyclerViewAdapter extends RecyclerView.Adapte
     private final List<Integer> mParentValues;
     private final List<ArrayList<Integer>> mChildValues;
     private final OnListFragmentInteractionListener mListener;
-    private FinalWorkoutViewModel mViewModel;
+    private final FinalWorkoutViewModel mViewModel;
 
 
     public FinalMuscleGroupItemRecyclerViewAdapter(List<Integer> parentItems, List<ArrayList<Integer>> childItems,

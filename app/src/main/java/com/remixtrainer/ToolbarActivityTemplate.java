@@ -14,6 +14,7 @@ import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 public class ToolbarActivityTemplate extends AppCompatActivity {
     protected FirebaseAuth mBaseAuth;
+    protected Boolean mAdminScreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class ToolbarActivityTemplate extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_items, menu);
         menu.findItem(R.id.admin_item).setVisible(mDatabase.mIsAdmin);
+        menu.findItem(R.id.retrieve_workout_item).setVisible(!mAdminScreen);
         return true;
     }
 
@@ -36,20 +38,25 @@ public class ToolbarActivityTemplate extends AppCompatActivity {
         final int logout_item_id = R.id.logout_item;
 
         // Handle item selection
-        if (item.getItemId() == R.id.logout_item) {
-            mBaseAuth.signOut();
+        switch (item.getItemId()) {
+            case R.id.admin_item:
+                nextIntent = new Intent(ToolbarActivityTemplate.this, AdminMainActivity.class);
+                startActivity(nextIntent);
 
-            nextIntent = new Intent(ToolbarActivityTemplate.this, PreLoginActivity.class);
-            startActivity(nextIntent);
-            finish();
+                return true;
+            case R.id.retrieve_workout_item:
+                nextIntent = new Intent(ToolbarActivityTemplate.this, RetrieveSavedWorkoutActivity.class);
+                startActivity(nextIntent);
 
-            return true;
-        }
-        else if (item.getItemId() == R.id.admin_item) {
-            nextIntent = new Intent(ToolbarActivityTemplate.this, AdminMainActivity.class);
-            startActivity(nextIntent);
+                return true;
+            case R.id.logout_item:
+                mBaseAuth.signOut();
 
-            return true;
+                nextIntent = new Intent(ToolbarActivityTemplate.this, PreLoginActivity.class);
+                startActivity(nextIntent);
+                finish();
+
+                return true;
         }
 
 

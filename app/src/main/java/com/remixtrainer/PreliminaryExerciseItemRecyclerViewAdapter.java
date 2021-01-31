@@ -1,26 +1,21 @@
 package com.remixtrainer;
 
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.remixtrainer.PreliminaryExerciseItemFragment.OnListFragmentInteractionListener;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 public class PreliminaryExerciseItemRecyclerViewAdapter extends RecyclerView.Adapter<PreliminaryExerciseItemRecyclerViewAdapter.ViewHolder> {
 
-    private PreliminaryWorkoutViewModel mViewModel;
-    private int mIdGroup, mPosGroup;
+    private final PreliminaryWorkoutViewModel mViewModel;
+    private final int mIdGroup;
+    private final int mPosGroup;
 
     private final List<Integer> mValues;
     private final List<Boolean> mRegenFlags;

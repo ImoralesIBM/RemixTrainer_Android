@@ -1,7 +1,6 @@
 package com.remixtrainer;
 
 import android.app.Application;
-import android.content.Intent;
 
 public class RemixTrainerApplication extends Application {
     public static DatabaseLocal mDatabase;

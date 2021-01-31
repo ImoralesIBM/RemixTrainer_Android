@@ -1,28 +1,29 @@
 package com.remixtrainer;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.remixtrainer.RemixTrainerApplication.mDatabase;
+
 
 public class SelectMuscleGroupDialogFragment extends DialogFragment
 {
+    private RecyclerView mMuscleGroupList;
     private ImageView mCloseButton;
-    private OnItemsSelectedListener mListener;
 
     public ArrayList<Boolean> mCheckboxesSelected;
+    public SelectMuscleGroupItemFragment.OnListFragmentInteractionListener mListener;
 
     public SelectMuscleGroupDialogFragment() {
         // Required empty public constructor
@@ -34,9 +35,11 @@ public class SelectMuscleGroupDialogFragment extends DialogFragment
      *
      * @return A new instance of fragment SelectMuscleGroupDialogFragment.
      */
-    public static SelectMuscleGroupDialogFragment newInstance(List<Boolean> checkboxList) {
+    public static SelectMuscleGroupDialogFragment newInstance(List<Boolean> checkboxList,
+                                                              SelectMuscleGroupItemFragment.OnListFragmentInteractionListener listener) {
         SelectMuscleGroupDialogFragment fragment = new SelectMuscleGroupDialogFragment();
         fragment.mCheckboxesSelected = new ArrayList<>(checkboxList);
+        fragment.mListener = listener;
 
         return fragment;
     }
@@ -50,15 +53,7 @@ public class SelectMuscleGroupDialogFragment extends DialogFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_select_muscle_group_dialog, container, false);
-
-        SelectMuscleGroupItemFragment fragment = new SelectMuscleGroupItemFragment();
-        fragment.setCheckboxes(mCheckboxesSelected);
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.replace(R.id.muscle_group_list_placeholder, fragment);
-        ft.commit();
-
-        return v;
+        return inflater.inflate(R.layout.fragment_select_muscle_group_dialog, container, false);
     }
 
     @Override
@@ -69,6 +64,10 @@ public class SelectMuscleGroupDialogFragment extends DialogFragment
     @Override
     public void onStart() {
         super.onStart();
+
+        mMuscleGroupList = getDialog().findViewById(R.id.muscle_group_list);
+        mMuscleGroupList.setAdapter(new SelectMuscleGroupItemRecyclerViewAdapter(mDatabase.mMuscleGroupList, mCheckboxesSelected, mListener));
+
         mCloseButton = getDialog().findViewById(R.id.close_btn);
         mCloseButton.setOnClickListener(v -> { dismiss(); });
     }

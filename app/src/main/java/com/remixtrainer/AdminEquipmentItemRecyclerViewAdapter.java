@@ -1,7 +1,6 @@
 package com.remixtrainer;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.remixtrainer.AdminEquipmentItemFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;

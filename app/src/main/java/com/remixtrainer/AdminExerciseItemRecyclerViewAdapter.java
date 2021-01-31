@@ -1,9 +1,6 @@
 package com.remixtrainer;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +12,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.remixtrainer.AdminExerciseItemFragment.OnListFragmentInteractionListener;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
@@ -77,14 +71,6 @@ public class AdminExerciseItemRecyclerViewAdapter extends RecyclerView.Adapter<A
                 new AdminExerciseEquipmentTypeViewItemRecyclerViewAdapter(localEquipmentTypes,
                         localExercise.getEquipmentAndVideos(), mListener)
         );
-
-        holder.mView.setOnClickListener(v -> {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    // mListener.onListFragmentInteraction(holder.mItem.getId());
-                }
-            });
     }
 
     @Override

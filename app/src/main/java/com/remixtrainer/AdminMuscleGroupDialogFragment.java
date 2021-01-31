@@ -2,11 +2,9 @@
 package com.remixtrainer;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,6 +115,7 @@ public class AdminMuscleGroupDialogFragment extends DialogFragment {
                     }
                     dismiss();
                 }
+                focusView.requestFocus();
             });
 
         mCancelButton.setOnClickListener(v -> { dismiss(); });

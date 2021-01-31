@@ -1,29 +1,39 @@
 package com.remixtrainer;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
+
 
 /**
  * A fragment representing a list of Items.
  */
-public class AdminFilterEquipmentTypeItemFragment extends Fragment {
+public class SavedWorkoutItemFragment extends Fragment {
+
+    // TODO: Customize parameter argument names
+    private static final String ARG_COLUMN_COUNT = "column-count";
+    // TODO: Customize parameters
+    private int mColumnCount = 1;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public AdminFilterEquipmentTypeItemFragment() {
+    public SavedWorkoutItemFragment() {
     }
 
+    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static AdminFilterEquipmentTypeItemFragment newInstance() {
-        return new AdminFilterEquipmentTypeItemFragment();
+    public static SavedWorkoutItemFragment newInstance(int columnCount) {
+        return new SavedWorkoutItemFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        }
     }
 
     /**
@@ -37,6 +47,6 @@ public class AdminFilterEquipmentTypeItemFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        void onEquipmentTypeItemSelected(int itemId, boolean isChecked);
+        void onWorkoutSelected(String key);
     }
 }

@@ -6,22 +6,10 @@ import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayerView;
-import com.google.android.youtube.player.YouTubeStandalonePlayer;
-import com.google.android.youtube.player.YouTubeThumbnailLoader;
-import com.google.android.youtube.player.YouTubeThumbnailView;
 
 import com.remixtrainer.FinalEquipmentTypeVideoItemFragment.OnListFragmentInteractionListener;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,8 +18,9 @@ import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
 public class FinalExerciseItemRecyclerViewAdapter extends RecyclerView.Adapter<FinalExerciseItemRecyclerViewAdapter.ViewHolder> {
 
-    private FinalWorkoutViewModel mViewModel;
-    private int mIdGroup, mPosGroup;
+    private final FinalWorkoutViewModel mViewModel;
+    private final int mIdGroup;
+    private final int mPosGroup;
 
     private final List<Integer> mValues;
 

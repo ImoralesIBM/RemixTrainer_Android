@@ -2,29 +2,19 @@ package com.remixtrainer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.Switch;
-import android.widget.TimePicker;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static com.remixtrainer.RemixTrainerApplication.mDatabase;
 
@@ -34,6 +24,8 @@ public class InitialParamsActivity extends ToolbarActivityTemplate {
     private NumberPicker mNumReps, mSets, mRestTime, mTimeReps;
     private LinearLayout mRepsEnvelope, mRepsTimeEnvelope;
     private SwitchCompat mSwitchRepsTime;
+
+    private String mWorkoutKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,16 +116,18 @@ public class InitialParamsActivity extends ToolbarActivityTemplate {
                 boolean cancel = false;
                 View focusView = null;
 
-                Bundle optionValues = new Bundle();
+                Bundle outgoingOptionValues = new Bundle();
                 Intent nextIntent = new Intent(InitialParamsActivity.this, SelectGroupExerciseActivity.class);
 
-                optionValues.putInt("numReps", mNumReps.getValue());
-                optionValues.putString("repTime", mTimeReps.getDisplayedValues()[mTimeReps.getValue() - 1]);
-                optionValues.putInt("numSets", mSets.getValue());
-                optionValues.putString("restTime", mRestTime.getDisplayedValues()[mRestTime.getValue() - 1]);
-                optionValues.putBoolean("useReps", mSwitchRepsTime.isChecked());
+                outgoingOptionValues.putInt("numReps", mNumReps.getValue());
+                outgoingOptionValues.putString("repTime", mTimeReps.getDisplayedValues()[mTimeReps.getValue() - 1]);
+                outgoingOptionValues.putInt("repTimeIndex", mTimeReps.getValue());
+                outgoingOptionValues.putInt("numSets", mSets.getValue());
+                outgoingOptionValues.putString("restTime", mRestTime.getDisplayedValues()[mRestTime.getValue() - 1]);
+                outgoingOptionValues.putInt("restTimeIndex", mRestTime.getValue());
+                outgoingOptionValues.putBoolean("useReps", mSwitchRepsTime.isChecked());
 
-                nextIntent.putExtras(optionValues);
+                nextIntent.putExtras(outgoingOptionValues);
 
                 startActivity(nextIntent);
             });
@@ -176,6 +170,20 @@ public class InitialParamsActivity extends ToolbarActivityTemplate {
                 return true;
             });
 
+            Bundle incomingOptionValues = getIntent().getExtras();
+            if (incomingOptionValues.containsKey("workoutKey")) {
+                mWorkoutKey = incomingOptionValues.getString("workoutKey");
+                Workout currentWorkout = mDatabase.mSavedWorkoutList.get(mWorkoutKey);
+
+                mNumReps.setValue(currentWorkout.getNumReps());
+                mTimeReps.setValue(currentWorkout.getRepTimeIndex());
+                mSets.setValue(currentWorkout.getNumSets());
+                mRestTime.setValue(currentWorkout.getRestTimeIndex());
+                mSwitchRepsTime.setChecked(currentWorkout.getUseReps());
+                mNextButton.callOnClick();
+            } else {
+                mWorkoutKey = "";
+            }
     }
 
 }

@@ -11,6 +11,14 @@
         android:visible="true"
         tools:checkable="false" />
     <item
+        android:id="@+id/retrieve_workout_item"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:title="@string/action_retrieve_workout"
+        android:visible="true"
+        tools:checkable="false" />
+    <item
         android:id="@+id/logout_item"
         android:checkable="false"
         android:checked="false"

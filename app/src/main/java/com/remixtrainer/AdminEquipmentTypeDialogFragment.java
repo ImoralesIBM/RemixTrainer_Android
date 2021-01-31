@@ -1,7 +1,6 @@
 package com.remixtrainer;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -81,10 +80,7 @@ public class AdminEquipmentTypeDialogFragment extends DialogFragment {
             mEquipmentCode.setText(mDatabase.mEquipmentTypeList.get(mIdEquipment).code);
         }
 
-        mSaveButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
+        mSaveButton.setOnClickListener(v -> {
                 // Reset errors.
                 mEquipmentName.setError(null);
                 mEquipmentCode.setError(null);
@@ -138,8 +134,8 @@ public class AdminEquipmentTypeDialogFragment extends DialogFragment {
                     }
                     dismiss();
                 }
-            }
-        });
+                focusView.requestFocus();
+            });
 
         mCancelButton.setOnClickListener(v -> { dismiss(); });
 

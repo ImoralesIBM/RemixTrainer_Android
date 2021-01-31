@@ -2,12 +2,10 @@ package com.remixtrainer;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -22,6 +20,7 @@ public class AdminEquipmentTypesActivity extends ToolbarActivityTemplate {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.mAdminScreen = true;
         setContentView(R.layout.activity_admin_equipment_types);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
