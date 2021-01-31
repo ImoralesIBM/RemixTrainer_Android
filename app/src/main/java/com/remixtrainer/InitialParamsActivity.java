@@ -171,7 +171,8 @@ public class InitialParamsActivity extends ToolbarActivityTemplate {
             });
 
             Bundle incomingOptionValues = getIntent().getExtras();
-            if (incomingOptionValues.containsKey("workoutKey")) {
+            if ((incomingOptionValues != null) &&
+                    (incomingOptionValues.containsKey("workoutKey"))) {
                 mWorkoutKey = incomingOptionValues.getString("workoutKey");
                 Workout currentWorkout = mDatabase.mSavedWorkoutList.get(mWorkoutKey);
 
